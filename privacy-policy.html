@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Privacy Protocol - Vexil Logic Games</title>
+    <link rel=icon href="assets/img/favicon.png" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        :root {
+            --security-green: #00ff41;
+            --security-bg: #0d1117;
+            --panel-bg: rgba(13, 17, 23, 0.95);
+        }
+
+        body {
+            background-color: var(--security-bg);
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e6ed;
+        }
+
+        /* Matrix/Grid Background */
+        .bg-matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .policy-hero {
+            padding: 160px 0 80px;
+            position: relative;
+            text-align: center;
+        }
+
+        .policy-hero h1 {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: clamp(40px, 8vw, 80px);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            border: 1px solid var(--security-green);
+            color: var(--security-green);
+            padding: 5px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(0, 255, 65, 0.1);
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+
+        /* Data Nodes (Sections) */
+        .data-node {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            border-left: 4px solid var(--main-color-one);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .data-node:hover {
+            border-color: var(--security-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+            transform: translateX(10px);
+        }
+
+        .data-node::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent 50%, rgba(0, 255, 65, 0.05) 50%);
+            pointer-events: none;
+        }
+
+        .node-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .node-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--security-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: var(--security-green);
+            font-size: 20px;
+        }
+
+        .node-title {
+            font-family: 'Science Gothic', sans-serif;
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .node-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #b0b0b0;
+        }
+
+        .node-content strong {
+            color: #fff;
+            color: var(--main-color-one);
+        }
+
+        .node-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .node-content ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        .node-content ul li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--security-green);
+            font-family: monospace;
+        }
+
+        .node-content a {
+            color: var(--security-green);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--security-green);
+            transition: all 0.3s;
+        }
+
+        .node-content a:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        /* Sidebar Navigation */
+        .policy-nav-wrap {
+            position: sticky;
+            top: 120px;
+        }
+
+        .policy-nav {
+            list-style: none;
+            padding: 0;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .policy-nav li {
+            margin-bottom: 0;
+        }
+
+        .policy-nav a {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .policy-nav a:hover,
+        .policy-nav a.active {
+            color: var(--security-green);
+            background: linear-gradient(90deg, rgba(0, 255, 65, 0.05), transparent);
+            padding-left: 25px;
+        }
+
+        .policy-nav a.active::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--security-green);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Grid -->
+    <div class="bg-matrix"></div>
+
+    <!-- cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- navbar start -->
+    <nav class="navbar navbar-area navbar-area-1 navbar-border navbar-expand-lg">
+        <div class="container nav-container px-lg-0">
+            <div class="responsive-mobile-menu">
+                <button class="menu toggle-btn d-block d-lg-none" data-target="#xdyat" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="icon-left"></span>
+                    <span class="icon-right"></span>
+                </button>
+            </div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/img/favicon.png" alt="logo"
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                    <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="xdyat_main_menu">
+                <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a class="active" href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="nav-right-part nav-right-part-desktop d-lg-inline-flex align-item-center">
+                <div class="btn-box d-inline-block">
+                    <button class="me-3 header-menu-toggle bg-transparent border-0 shadow-0" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasright" aria-controls="offcanvasright">
+                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0V3H24V0H0ZM24 21H16V18H24V21ZM24 12H8V9H24V12Z" fill="#fff" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+
+    <!-- Header -->
+    <section class="policy-hero">
+        <div class="container">
+            <div class="status-badge">
+                <i class="fa fa-lock me-2"></i> PROTOCOL SECURE // ENCRYPTION: AES-256
+            </div>
+            <h1 class="move-line-3d">Privacy Data Vault</h1>
+            <p class="text-white-50" style="max-width: 600px; margin: 0 auto;">
+                Transparency is our core directive. Accessing Vexil Logic Games data collection and security protocols.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="pd-bottom-120">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Nav -->
+                <div class="col-lg-3 d-none d-lg-block">
+                    <div class="policy-nav-wrap">
+                        <ul class="policy-nav">
+                            <li><a href="#intro" class="active">01. Introduction</a></li>
+                            <li><a href="#collect">02. Information Collection</a></li>
+                            <li><a href="#usage">03. Data Usage</a></li>
+                            <li><a href="#thirdparty">04. Third-Party Services</a></li>
+                            <li><a href="#sharing">05. Data Disclosure</a></li>
+                            <li><a href="#retention">06. Retention & Deletion</a></li>
+                            <li><a href="#children">07. Children's Privacy</a></li>
+                            <li><a href="#security">08. Security Defense</a></li>
+                            <li><a href="#contact">09. Contact Protocol</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="col-lg-9">
+
+                    <!-- 1. Introduction -->
+                    <div id="intro" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-fingerprint"></i></div>
+                            <h3 class="node-title">1. Introduction Protocol</h3>
+                        </div>
+                        <div class="node-content">
+                            <p><strong>Developer:</strong> Vexil Logic Games<br>
+                                <strong>Contact Email:</strong> <a
+                                    href="mailto:vexillogicgames@gmail.com">vexillogicgames@gmail.com</a><br>
+                                <strong>Last Updated:</strong> 13-07-2025
+                            </p>
+
+                            <p>Welcome to <strong>Vexil Logic Games</strong>. We are committed to protecting your
+                                privacy and ensuring transparency in how we handle your personal data when you play our
+                                mobile games (“Games” or “Services”). By downloading and using our Games, you confirm
+                                your acceptance of this policy.</p>
+
+                            <p>This policy complies with:</p>
+                            <ul>
+                                <li><strong>General Data Protection Regulation (GDPR)</strong> – For users in the
+                                    European Economic Area (EEA) and the UK.</li>
+                                <li><strong>California Consumer Privacy Act (CCPA)</strong> – For California residents.
+                                </li>
+                                <li><strong>Children’s Online Privacy Protection Act (COPPA)</strong> – For users under
+                                    13 years old.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 2. Information Collection -->
+                    <div id="collect" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-database"></i></div>
+                            <h3 class="node-title">2. Information Ingestion</h3>
+                        </div>
+                        <div class="node-content">
+                            <h5 style="color:#fff; margin-top:20px;">2.1 Personal Data (Voluntary)</h5>
+                            <ul>
+                                <li><strong>Name and contact info:</strong> If you facilitate support requests or create
+                                    an account.</li>
+                                <li><strong>Payment information:</strong> Processed securely via providers (Google Play,
+                                    Apple Pay). We do NOT store payment details locally.</li>
+                                <li><strong>User-generated content:</strong> Chat messages, profile data, or other info
+                                    created in-game.</li>
+                            </ul>
+
+                            <h5 style="color:#fff; margin-top:20px;">2.2 Non-Personal Data (Automatic)</h5>
+                            <ul>
+                                <li><strong>Device data:</strong> Model, OS, IP address, advertising ID.</li>
+                                <li><strong>Gameplay metrics:</strong> Session times, in-game actions, feature
+                                    interactions.</li>
+                            </ul>
+
+                            <h5 style="color:#fff; margin-top:20px;">2.3 Device Permissions</h5>
+                            <p>We may request access to hardware for gameplay features. You can deny these in system
+                                settings:</p>
+                            <ul>
+                                <li>Camera</li>
+                                <li>Microphone</li>
+                                <li>Storage</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3. Usage -->
+                    <div id="usage" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-microchip"></i></div>
+                            <h3 class="node-title">3. Processing Algorithms</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>We utilize your data to:</p>
+                            <ul>
+                                <li><strong>Improve the framework:</strong> Enhance features, debug code, and optimize
+                                    fun.</li>
+                                <li><strong>Targeted Operations:</strong> Deliver personalized ads based on Device ID
+                                    (opt-out available via settings).</li>
+                                <li><strong>Analytics:</strong> Understand user behavior patterns to upgrade future
+                                    updates.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 4. Third Party -->
+                    <div id="thirdparty" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-network-wired"></i></div>
+                            <h3 class="node-title">4. External Integrations (SDKs)</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>We integrate external modules for analytics and monetization. Check their individual
+                                protocols:</p>
+
+                            <h5 style="color:#fff; margin-top:20px;">Ad Networks & User Acquisition</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li><a href="https://ads.tiktok.com/i18n/official/policy/privacy">TikTok
+                                                Privacy</a></li>
+                                        <li><a href="https://www.mintegral.com/en/privacy">Mintegral Privacy</a></li>
+                                        <li><a href="https://www.applovin.com/privacy/">Applovin Privacy</a></li>
+                                        <li><a
+                                                href="https://developers.ironsrc.com/ironsource-mobile/air/ironsource-mobile-privacy-policy/">Ironsource
+                                                Privacy</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li><a href="https://unity3d.com/legal/privacy-policy">Unity Privacy</a></li>
+                                        <li><a href="https://policies.google.com/privacy?hl=en-US">Google Privacy</a>
+                                        </li>
+                                        <li><a href="https://www.facebook.com/privacy/policy/">Facebook Privacy</a></li>
+                                        <li><a href="https://www.inmobi.com/privacy-policy">InMobi Privacy</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h5 style="color:#fff; margin-top:20px;">Analytics Modules</h5>
+                            <ul>
+                                <li><a href="https://gameanalytics.com/trust/privacy/privacy-notice">GameAnalytics</a>
+                                </li>
+                                <li><a href="https://appmetrica.yandex.com/docs/en/data-security/gdpr">AppMetrica</a>
+                                </li>
+                                <li><a href="https://www.adjust.com/terms/privacy-policy">Adjust</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 5 & 6 Sharing / Retention -->
+                    <div id="sharing" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-share-alt"></i></div>
+                            <h3 class="node-title">5. Disclosure & Retention</h3>
+                        </div>
+                        <div class="node-content">
+                            <p><strong>WE DO NOT SELL YOUR PERSONAL DATA.</strong></p>
+                            <p>Disclosure occurs only for:</p>
+                            <ul>
+                                <li>Legal compliance or law enforcement requests.</li>
+                                <li>Fraud prevention and security enforcement.</li>
+                                <li>Business mergers or acquisitions.</li>
+                            </ul>
+                            <p><strong>Retention:</strong> Data is purged once it no longer serves the operational or
+                                legal purpose defined in this protocol.</p>
+                        </div>
+                    </div>
+
+                    <!-- 7 & 8 Changes / Children -->
+                    <div id="children" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-child"></i></div>
+                            <h3 class="node-title">7. Safety Protocols</h3>
+                        </div>
+                        <div class="node-content">
+                            <h5 style="color:#fff;">Children's Privacy (Under 13)</h5>
+                            <p>Our Games are <strong>NOT intended</strong> for users under 13. We do not knowingly
+                                harvest data from this demographic. If discovered, such data meets immediate deletion
+                                protocols.</p>
+
+                            <h5 style="color:#fff; margin-top:20px;">Security Measures</h5>
+                            <p>We deploy commercially compliant encryption and firewall standards. However, no digital
+                                transmission is theoretically invulnerable.</p>
+                        </div>
+                    </div>
+
+                    <!-- 9 Contact -->
+                    <div id="contact" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-envelope-open-text"></i></div>
+                            <h3 class="node-title">9. Establish Connection</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>For inquiries regarding specific data nodes or general privacy concerns:</p>
+                            <a href="mailto:vexillogicgames@gmail.com"
+                                style="font-size: 20px; font-weight: bold;">vexillogicgames@gmail.com</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer area start -->
+    <footer class="footer-area footer-area-1 pd-top-110 mt--35"
+        style="background-image: url('./assets/img/footer/bg.png');">
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: Logo & Info -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="widget widget_about">
+                        <div class="thumb">
+                            <a href="index.html">
+                                <img src="assets/img/favicon.png" alt="logo"
+                                    style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                                <span class="site-logo-text"><span class="vexil">VEXIL</span><span
+                                        class="logic">LOGIC</span></span>
+                            </a>
+                        </div>
+                        <div class="details">
+                            <p class="mb-3">
+                                New York, USA <br>
+                                vexillogicgames@gmail.com
+                            </p>
+                            <h5>System Status</h5>
+                            <p><strong><span class="color-base">ONLINE</span></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="col-lg-6 col-md-6 text-center text-md-end mt-4 mt-md-0">
+                    <div class="widget widget_nav_menu ps-xl-5">
+                        <h4 class="widget-title">Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">HOME</a></li>
+                            <li><a href="about.html">ABOUT US</a></li>
+                            <li><a href="contact.html">CONTACT</a></li>
+                            <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>© 2026 Vexil Logic Games.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- all plugins here -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fontawesome.min.js"></script>
+    <script src="assets/js/magnific.min.js"></script>
+    <script src="assets/js/nice-select.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/counter-up.min.js"></script>
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/SplitText.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/lenis.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+        // Additional GSAP for Nav Active State and Data Node Reveal
+
+        // Register Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        const sections = document.querySelectorAll(".data-node");
+        const navLinks = document.querySelectorAll(".policy-nav a");
+
+        // Reveal Animation for Data Nodes
+        sections.forEach(section => {
+            // Set initial state
+            gsap.set(section, { autoAlpha: 0, x: -30 });
+
+            // Animate on scroll
+            gsap.to(section, {
+                duration: 0.8,
+                autoAlpha: 1,
+                x: 0,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%", // Triggers when top of element hits 85% of viewport height
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Nav Highlight Logic
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => setActiveNav(section.id),
+                onEnterBack: () => setActiveNav(section.id)
+            });
+        });
+
+        function setActiveNav(id) {
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === `#${id}`) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

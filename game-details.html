@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vexil Logic Games - Game Details</title>
+    <link rel=icon href="assets/img/favicon.png" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="assets/css/magnific.min.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        :root {
+            --hud-glow: rgba(68, 245, 128, 0.6);
+            --hud-dark: rgba(7, 3, 31, 0.95);
+        }
+
+        .game-hero {
+            position: relative;
+            padding: 180px 0 120px;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Darker, strong gradient for text readability */
+        .game-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    rgba(7, 3, 31, 1) 0%,
+                    rgba(7, 3, 31, 0.9) 30%,
+                    rgba(7, 3, 31, 0.6) 60%,
+                    rgba(7, 3, 31, 0.8) 100%);
+            z-index: 1;
+        }
+
+        /* Sci-fi HUD Scanline */
+        .game-hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 3px, 4px 100%;
+            pointer-events: none;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        .game-hero-content {
+            position: relative;
+            z-index: 4;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Enhanced Readability Class */
+        .text-readable {
+            text-shadow: 2px 2px 4px #000000, 0 0 20px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 4px;
+            backdrop-filter: blur(2px);
+            display: inline-block;
+        }
+
+        .game-icon-large {
+            width: 180px;
+            height: 180px;
+            border-radius: 40px;
+            border: 4px solid var(--main-color-one);
+            box-shadow: 0 0 50px var(--hud-glow);
+            margin-bottom: 30px;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .screenshot-slider {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.01);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Orientation Specifics */
+        .screenshot-portrait .swiper-slide {
+            width: auto;
+            max-width: 280px;
+        }
+
+        .screenshot-landscape .swiper-slide {
+            width: auto;
+            max-width: 600px;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            filter: grayscale(0.3) brightness(0.8);
+        }
+
+        .swiper-slide-active img {
+            transform: scale(1.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 20px var(--hud-glow);
+            filter: grayscale(0) brightness(1);
+            border-color: var(--main-color-one);
+        }
+
+        .btn-playstore {
+            background: var(--main-color-one);
+            color: var(--color-back);
+            font-weight: 900;
+            padding: 20px 45px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(68, 245, 128, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+        }
+
+        .btn-playstore:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(68, 245, 128, 0.5);
+            background: transparent;
+            color: var(--main-color-one);
+            border-color: var(--main-color-one);
+        }
+
+        /* New animated description styles */
+        .desc-container {
+            position: relative;
+            padding: 60px;
+            background: rgba(7, 3, 31, 0.8);
+            border: 1px solid var(--main-color-one);
+            box-shadow: 0 0 30px rgba(68, 245, 128, 0.1), inset 0 0 50px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .desc-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--main-color-one);
+            box-shadow: 0 0 15px var(--main-color-one);
+        }
+
+        .desc-text {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #d0d0d0;
+            white-space: pre-line;
+            opacity: 0;
+            /* Hidden initially for animation */
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--main-color-one);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .screenshot-portrait .swiper-slide {
+                max-width: 220px;
+            }
+
+            .screenshot-landscape .swiper-slide {
+                max-width: 300px;
+            }
+
+            .game-hero {
+                padding: 120px 0 60px;
+            }
+
+            .game-icon-large {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <!-- cursor End -->
+
+    <!-- navbar start -->
+    <nav class="navbar navbar-area navbar-area-1 navbar-border navbar-expand-lg">
+        <div class="container nav-container px-lg-0">
+            <div class="responsive-mobile-menu">
+                <button class="menu toggle-btn d-block d-lg-none" data-target="#xdyat" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="icon-left"></span>
+                    <span class="icon-right"></span>
+                </button>
+            </div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/img/favicon.png" alt="logo"
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                    <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="xdyat_main_menu">
+                <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="nav-right-part nav-right-part-desktop d-lg-inline-flex align-item-center">
+                <div class="btn-box d-inline-block">
+                    <button class="me-3 header-menu-toggle bg-transparent border-0 shadow-0" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasright" aria-controls="offcanvasright">
+                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0V3H24V0H0ZM24 21H16V18H24V21ZM24 12H8V9H24V12Z" fill="#fff" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+
+    <!-- Game Hero Section -->
+    <div id="game-hero" class="game-hero">
+        <div class="container">
+            <div class="game-hero-content text-center text-lg-start">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 text-center">
+                        <img id="game-icon" src="" alt="Game Icon" class="game-icon-large">
+                    </div>
+                    <div class="col-lg-9">
+                        <h6 class="sub-title split_chars text-white mb-2" id="game-category">CATEGORY</h6>
+                        <h1 class="title move-line-3d text-white mb-3 glitch-text" id="game-title"
+                            style="font-size: clamp(32px, 5vw, 64px); font-weight: 900; line-height: 1.1;"
+                            data-text="Game Name">Game Name
+                        </h1>
+                        <!-- Added text-readable class for visibility -->
+                        <div class="text-readable">
+                            <p class="fade-slide bottom text-white mb-4 pe-lg-5 m-0" id="game-short-desc"
+                                style="font-size: 18px; max-width: 800px; font-weight: 500;">
+                                Detailed description...
+                            </p>
+                        </div>
+                        <div class="btn-box fade-slide bottom mt-4" data-delay="0.4">
+                            <a id="game-play-link" href="#" target="_blank" class="btn-playstore">
+                                <i class="fab fa-google-play"></i> GET IT ON GOOGLE PLAY
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meta Stats -->
+    <div class="pd-top-100 pd-bottom-60">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4 col-6">
+                    <div class="game-meta-item fade-slide bottom" data-delay="0.1">
+                        <h3 id="game-rating">0.0</h3>
+                        <span>CRITICAL RATING</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-6">
+                    <div class="game-meta-item fade-slide bottom" data-delay="0.2">
+                        <h3 id="game-installs-count">500K+</h3>
+                        <span>ACTIVE INSTALLS</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="game-meta-item fade-slide bottom" data-delay="0.3">
+                        <h3 id="game-studio-name">VEXIL LOGIC</h3>
+                        <span>STUDIO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot Gallery -->
+    <div class="screenshot-slider" id="screenshot-slider-section">
+        <div class="container-fluid px-0">
+            <div class="section-title text-center mb-5">
+                <h2 class="title move-line-3d">Visual <span>Log</span></h2>
+                <p class="text-white-50">In-game authentication screenshots</p>
+            </div>
+            <div class="swiper screenshot-swiper">
+                <div class="swiper-wrapper" id="screenshot-container">
+                    <!-- Screenshots will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Long Description with Animation -->
+    <div class="pd-top-120 pd-bottom-120">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="desc-container">
+                        <!-- Renamed Title -->
+                        <h2 class="title mb-4 text-start"
+                            style="color: var(--main-color-one); text-transform: uppercase; letter-spacing: 2px;">
+                            <i class="fa fa-terminal me-2"></i> Mission Briefing
+                        </h2>
+                        <!-- Animated Text Container -->
+                        <div id="game-full-desc" class="desc-text">
+                        </div>
+                        <span class="cursor-blink"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer area start -->
+    <footer class="footer-area footer-area-1 pd-top-110 mt--35"
+        style="background-image: url('./assets/img/footer/bg.png');">
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: Logo & Info -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="widget widget_about">
+                        <div class="thumb">
+                            <a href="index.html">
+                                <img src="assets/img/favicon.png" alt="logo"
+                                    style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                                <span class="site-logo-text"><span class="vexil">VEXIL</span><span
+                                        class="logic">LOGIC</span></span>
+                            </a>
+                        </div>
+                        <div class="details">
+                            <p class="mb-3">
+                                New York, USA <br>
+                                vexillogicgames@gmail.com
+                            </p>
+                            <h5>System Status</h5>
+                            <p><strong><span class="color-base">ONLINE</span></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="col-lg-6 col-md-6 text-center text-md-end mt-4 mt-md-0">
+                    <div class="widget widget_nav_menu ps-xl-5">
+                        <h4 class="widget-title">Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">HOME</a></li>
+                            <li><a href="about.html">ABOUT US</a></li>
+                            <li><a href="contact.html">CONTACT</a></li>
+                            <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>© 2026 Vexil Logic Games.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* Existing styles... */
+
+        /* Glitch Effect */
+        .glitch-text {
+            position: relative;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 3, 31, 1);
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-1 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% {
+                clip: rect(20px, 9999px, 80px, 0);
+            }
+
+            20% {
+                clip: rect(60px, 9999px, 10px, 0);
+            }
+
+            40% {
+                clip: rect(10px, 9999px, 50px, 0);
+            }
+
+            60% {
+                clip: rect(80px, 9999px, 30px, 0);
+            }
+
+            80% {
+                clip: rect(30px, 9999px, 70px, 0);
+            }
+
+            100% {
+                clip: rect(50px, 9999px, 90px, 0);
+            }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% {
+                clip: rect(80px, 9999px, 20px, 0);
+            }
+
+            20% {
+                clip: rect(10px, 9999px, 60px, 0);
+            }
+
+            40% {
+                clip: rect(50px, 9999px, 30px, 0);
+            }
+
+            60% {
+                clip: rect(30px, 9999px, 80px, 0);
+            }
+
+            80% {
+                clip: rect(70px, 9999px, 40px, 0);
+            }
+
+            100% {
+                clip: rect(90px, 9999px, 10px, 0);
+            }
+        }
+    </style>
+
+    <!-- all plugins here -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fontawesome.min.js"></script>
+    <script src="assets/js/magnific.min.js"></script>
+    <script src="assets/js/nice-select.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/counter-up.min.js"></script>
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/SplitText.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/lenis.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const gameId = parseInt(urlParams.get('id')) || 1;
+
+            const apps = [
+                {
+                    "id": 1,
+                    "name": "Fruit Merge: Watermelon Game",
+                    "icon": "https://play-lh.googleusercontent.com/uGxRufJolsYYceWZ6Zdu-INEMxSk3aVktMkb3I1azKyfmj17cMWPb1R1MR8TNjTAbx4VSss-OAVYhs1gcseiUg=w240-h480-rw",
+                    "thumbnail": "https://lh3.googleusercontent.com/MnBC8QOWn76kZjdpgmjTH3bXTbb36XsH8yQb1Djt5NxVirLczbtN8vvgm9etPPPrZvw5KDq4knnxOBHsyU-kmw",
+                    "screenshots": [
+                        "https://play-lh.googleusercontent.com/0jeqU5r0ANxFUbFHZqAszNIP_l-2ZKyGdzbXkuakuzWQd9DldSpBiG6DCyzp0FQmv45sYeM-FIPoXxEPrjbJFA8=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/OXqrZurfr5t56Jcw7asBT5HKCVLJoOBu6mQiX4vNBXrGaNmEgbRxlpQy7KCTmxib6DKdqdhXJZynqh0TFgLBYQ=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/ku5jOHEMLoejfybesUi0zM29ox1px2b4YRTZcH8fgi6r_CdBEjJc_QYiyN_IfcHi2CapO11apkEyljDXlVVVLw=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/qarKuln8AJ1QxuoBljh1x9PpvU4Jj_KIH7r1hh22wJ5Ig4qlTxV0dYvUfvBLThxcrUw5I7LT1KyrtdNl05PkKw=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/jhKXhRwiUhl6qbRaBj0Xzovhpa7tvP91jIF-ZSqezih17w4EtYxo_UULI5sxJFVNhpi1Lsq_uYwlF4RF78rypg=w526-h296-rw"
+                    ],
+                    "rating": "4.8",
+                    "category": "Puzzle",
+                    "orientation": "portrait",
+                    "description": "🍓 Dive into Juice Worlds: The Definitive Fruit Merge Adventure! 🍓\n\nAre you ready to challenge your mind with the most satisfying drop puzzle of the year? Welcome to Juice Worlds, a fresh and exciting twist on the viral Watermelon Game genre.\n\nIf you love the strategy of 2048, the physics of Tetris, and the fun of classic fruit match games, this is the perfect experience for you. Drop, merge, and grow your fruits to create the legendary Giant Watermelon! 🍉\n\n🎮 THE ULTIMATE FRUIT MERGE EXPERIENCE\n\nIn Juice Worlds, your goal is simple yet addictive: drop cute fruits onto the board and merge identical ones to evolve them into larger varieties. Start with small berries and work your way up to the massive Watermelon.\n\nBut be careful! The container fills up quickly. You will need to use smart strategy and physics to keep the board clear. It’s the classic Suika style gameplay you know, now enhanced with features you’ve never seen before.\n\n✨ EXCLUSIVE GAME FEATURES:\n\n🧩 Strategic Drop & Merge Gameplay\nExperience smooth, physics-based mechanics. Fruits roll, bounce, and settle realistically. Every drop matters in this brain teaser! Plan your moves to trigger satisfying chain reactions and massive combos.\n\n🌍 Unlock Stunning Worlds\nWhy play on a boring background? We bring you the first fruit merge game with customizable themes!\n• Classic Kitchen: The traditional look you love.\n• Cyberpunk City: Merge fruits under neon lights.\n• Desert Oasis: A sunny, relaxing puzzle environment.\n• Space Voyager: Drop fruits in zero-gravity style visuals.\n\n🚀 Powerful Boosts & Power-Ups\nStuck with a bad drop? Don’t worry! Unlike other Suika games, we give you the tools to win:\n• Hammer Smash: Destroy unwanted fruits to clear space.\n• Shuffle: Shake up the board to find new merge opportunities.\n• Evolution: Instantly upgrade a fruit to the next tier!\n\n🏆 Compete on Global Leaderboards\nDo you have what it takes to be the Fruit King? Challenge players from around the world. Climb the ranks, show off your high scores, and prove your skills in this competitive online puzzle.\n\n🧠 Relaxing Yet Challenging\nPerfect for quick breaks or long sessions. This is a casual game that helps you unwind while keeping your brain sharp. It’s easy to learn but hard to master—the hallmark of a great logic puzzle.\n\n📶 Play Offline Anywhere\nNo internet? No problem! Juice Worlds is a fully optimized offline game. Enjoy the fruit-dropping fun on the bus, on a plane, or anywhere without Wi-Fi.\n\nWHY PLAYERS LOVE JUICE WORLDS:\n🍒 Cute Graphics: Vibrant, juicy visuals and satisfying animations.\n🍒 ASMR Sounds: Relaxing sound effects with every pop and merge.\n🍒 Daily Rewards: Log in every day for free coins and boosters.\n🍒 Family Friendly: A fun puzzle game for kids and adults alike.\n\n🍉 TIPS TO MASTER THE GAME:\n1. Think Ahead: Don't just drop randomly. Look at the \"Next Fruit\" indicator.\n2. Big Fruits in Corners: Try to keep your largest fruits (like the Melon or Coconut) in the corners to avoid blocking the board.\n3. Use Physics: Drop fruits slightly off-center to push other fruits together.\n4. Save Your Boosts: Only use your power-ups when you are close to the red line!\n\nJoin the Fruit Fusion Frenzy!\n\nStop playing generic clones. Experience the fruit merge game that offers more strategy, more themes, and more fun. Whether you are a fan of merge puzzles, match 3 games, or just want a relaxing way to pass the time, this game is for you.\n\n⬇️ Download Fruit Merge: Watermelon Game now and start your journey to the Giant Watermelon! ⬇️",
+                    "url": "https://play.google.com/store/apps/details?id=com.exodium.juicyjunctionpuzzle"
+                },
+                {
+                    "id": 2,
+                    "name": "City Cargo Truck Parking Sim",
+                    "icon": "https://play-lh.googleusercontent.com/xZ4cbIGXWE5l5_HM_KhXpuBJExhT_viv_-_aHXrZw7YeHPRoCb7ZFghaTwyTrYk-Lve_nyby-LLKKgwbidlw=w240-h480-rw",
+                    "thumbnail": "https://play-lh.googleusercontent.com/fcwLBXP9mozBLrJtlheE4fnwwYyTEPF3J7lx3qnRxC6fUWXAK9qPFvCTj-r8BD-PRj0dXIumuZylod5tizBWGA=w416-h235-rw",
+                    "screenshots": [
+                        "https://play-lh.googleusercontent.com/gJdJ-gOD1ZYg3j-3qsnyX72Txx1Y_jZ7Ak16ukCc4Qj3HUs-Lg9ISDZ8MgKPbmhTei7fQ_vW_zW8UOk1jif3SwQ=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/OZ0yMsgiK_nNj-b9i9kyRzEr0VP6__E4WQYDXQI1gNLd7id-UARLUE_0TbOSdU4Gm9nYmylOnshBmoz2rxe3eg=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/3sJn5mnkp14ti3MdZC_ZwPiAoqV-1pr4KhY4n7kM8XWWxxmGJb9Vz2FdaLI343wWqPZfQlknAA56o1WhiiU7s8w=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/Y2m0FAb2pWWAIrQyUgr_q1E9sF2yh3pwDnjGJpd3MOMgm_I0gABHkz2IVCvO7HsGnN8EQd7aDY0aYX0DfsQAwg=w526-h296-rw",
+                        "https://play-lh.googleusercontent.com/ZpW6bmJx7FcXkk1SCFK7vWv7sbQYK0LPnVC1ezz1f-1bzrUXolqkuHycSvHTrJ_VbS7gdLRoK42k1grvgsPC=w526-h296-rw"
+                    ],
+                    "rating": "4.5",
+                    "category": "Simulation",
+                    "orientation": "landscape",
+                    "description": "Become the ultimate city cargo truck driver!\n\nCity Cargo Truck Parking Sim – Real Truck Game brings you a realistic truck driving & parking simulator full of cargo missions, precision challenges, and urban environments.\n\n🚚 Realistic Vehicles & Physics\nDrive semi-trucks, box trucks, long trailers, vans, and forklifts. Every vehicle feels different — weight, suspension, manual/automatic gear shifts, brake dynamics. Tweak control styles like tilt, buttons, or wheel mode. Feel the roar of engines and squeal of brakes.\n\n🎯 Cargo Delivery Missions & Parking Challenges\nTransport loads: pallets, containers, barrels, tools across city zones. Face timed deliveries, route planning, and multi-stop missions. Reverse into tight docks, avoid collisions, park within narrow lines. Special forklift tasks let you load/unload cargo manually.\n\n🌆 Explore a Full 3D City World\nNavigate downtown roads, industrial areas, ports, and warehouse districts. Dynamic day/night cycle, rain, fog & weather effects influence driving. AI traffic, pedestrians, roadworks bring realism to your simulator.\n\n🔧 Customisation & Progression\nUnlock new trucks, upgrade parts, paint your rig, choose wheels and exhausts. Select your camera view (interior, exterior, top-down). Free drive mode lets you experiment, find shortcuts or practice parking.\n\n💡 Why You’ll Love This Truck Game\n• Focused on **city driving & parking** — no off-road distractions\n• Fully playable offline — fits your schedule\n• Replay missions, earn 3 stars, improve your skills\n• Free-to-play with optional cosmetic packs — not pay-to-win\n\nDownload City Cargo Truck Parking Sim – Real Truck Game now and master urban deliveries, park like a pro, tackle weather and tight spots, become the top cargo transporter!",
+                    "url": "https://play.google.com/store/apps/details?id=com.vexillogic.citycargotruck.simulator"
+                }
+            ];
+
+            const game = apps.find(a => a.id === gameId) || apps[0];
+
+            // Populate Page
+            document.title = `${game.name} - Vexil Logic Games`;
+            const titleEl = document.getElementById('game-title');
+            titleEl.innerText = game.name;
+            titleEl.setAttribute('data-text', game.name); // Set data-text for glitch
+
+            document.getElementById('game-icon').src = game.icon;
+            document.getElementById('game-category').innerText = game.category;
+            document.getElementById('game-short-desc').innerText = game.description.substring(0, 200).replace(/\n/g, ' ') + '...';
+            if (document.getElementById('game-rating')) {
+                document.getElementById('game-rating').innerText = game.rating;
+            }
+            document.getElementById('game-play-link').href = game.url;
+            document.getElementById('game-hero').style.backgroundImage = `url('${game.thumbnail}')`;
+
+            const sliderSection = document.getElementById('screenshot-slider-section');
+            sliderSection.className = 'screenshot-slider ' + (game.orientation === 'portrait' ? 'screenshot-portrait' : 'screenshot-landscape');
+
+            const screenshotContainer = document.getElementById('screenshot-container');
+            screenshotContainer.innerHTML = '';
+            game.screenshots.forEach(src => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `<img src="${src}" alt="screenshot">`;
+                screenshotContainer.appendChild(slide);
+            });
+
+            new Swiper('.screenshot-swiper', {
+                loop: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                spaceBetween: game.orientation === 'portrait' ? 20 : 40,
+                autoplay: { delay: 3500 },
+                speed: 1000,
+                effect: 'coverflow',
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 2,
+                    slideShadows: false,
+                }
+            });
+
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+            const tl = gsap.timeline();
+
+            tl.from('#game-icon', { scale: 0, rotate: -45, opacity: 0, duration: 1.2, ease: 'expo.out' })
+                .from('#game-title', { x: 100, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.8')
+                .from('#game-category, #game-short-desc, .btn-playstore', { y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, '-=0.5');
+
+            // --- HACKER SCRAMBLE EFFECT ---
+            const fullDesc = game.description;
+            const descEl = document.getElementById('game-full-desc');
+            const possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+=-<>?/";
+
+            // Function to scramble text
+            // Function to decrypt text (Random Resolve)
+            const decryptText = (element, finalText, duration, isNumeric = false) => {
+                if (isNumeric) {
+                    // Numeric countdown/up effect
+                    const obj = { val: 0 };
+                    gsap.to(obj, {
+                        val: parseFloat(finalText),
+                        duration: duration / 1000,
+                        ease: "power2.out",
+                        onUpdate: () => {
+                            element.innerText = obj.val.toFixed(1);
+                        }
+                    });
+                    return;
+                }
+
+                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+=-<>?/";
+                let frame = 0;
+                const totalFrames = duration / 30; // 30ms per frame
+                let resolvedIndices = new Set();
+
+                const interval = setInterval(() => {
+                    const progress = frame / totalFrames;
+
+                    // Randomly resolve more characters based on progress
+                    const charsToResolve = Math.floor(finalText.length * progress);
+
+                    while (resolvedIndices.size < charsToResolve && resolvedIndices.size < finalText.length) {
+                        const idx = Math.floor(Math.random() * finalText.length);
+                        resolvedIndices.add(idx);
+                    }
+
+                    const currentText = finalText
+                        .split("")
+                        .map((char, index) => {
+                            if (resolvedIndices.has(index) || char === ' ' || char === '\n') {
+                                return finalText[index];
+                            }
+                            return chars[Math.floor(Math.random() * chars.length)];
+                        })
+                        .join("");
+
+                    element.innerText = currentText;
+
+                    if (frame >= totalFrames) {
+                        clearInterval(interval);
+                        element.innerText = finalText; // Ensure final state
+                    }
+                    frame++;
+                }, 30);
+            };
+
+            // Trigger scramble on scroll for Description
+            ScrollTrigger.create({
+                trigger: '.desc-container',
+                start: 'top 85%',
+                onEnter: () => {
+                    descEl.style.opacity = 1;
+                    decryptText(descEl, fullDesc, 2000);
+                }
+            });
+
+            // --- ANIMATE STATS ---
+            ScrollTrigger.create({
+                trigger: '.game-meta-item',
+                start: 'top 90%',
+                onEnter: () => {
+                    // Rating
+                    if (document.getElementById('game-rating')) {
+                        decryptText(document.getElementById('game-rating'), game.rating, 2000, true);
+                    }
+                    // Installs
+                    if (document.getElementById('game-installs-count')) {
+                        decryptText(document.getElementById('game-installs-count'), "500K+", 1500);
+                    }
+                    // Studio
+                    if (document.getElementById('game-studio-name')) {
+                        decryptText(document.getElementById('game-studio-name'), "VEXIL LOGIC", 1500);
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

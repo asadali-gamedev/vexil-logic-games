@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact Us - Vexil Logic Games</title>
+    <link rel=icon href="assets/img/favicon.png" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        :root {
+            --security-green: #00ff41;
+            --security-bg: #0d1117;
+            --panel-bg: rgba(13, 17, 23, 0.95);
+            --holo-blue: #00f3ff;
+        }
+
+        body {
+            background-color: var(--security-bg);
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e6ed;
+        }
+
+        /* Matrix/Grid Background */
+        .bg-matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .contact-hero {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+
+        .contact-hero h1 {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: clamp(40px, 8vw, 80px);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        /* Transmission Form Style */
+        .transmission-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--holo-blue);
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .transmission-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--holo-blue), transparent);
+            animation: scanline 3s infinite linear;
+        }
+
+        .panel-header {
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            color: var(--holo-blue);
+            font-family: 'Science Gothic', sans-serif;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .input-group-holo {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-group-holo input,
+        .input-group-holo textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 15px 20px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .input-group-holo input:focus,
+        .input-group-holo textarea:focus {
+            border-color: var(--holo-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            outline: none;
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        .btn-transmit {
+            background: transparent;
+            color: var(--holo-blue);
+            border: 1px solid var(--holo-blue);
+            padding: 15px 40px;
+            font-family: 'Science Gothic', sans-serif;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-transmit:hover {
+            background: var(--holo-blue);
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+        }
+
+        /* Coordinates Panel (Right Side) */
+        .coordinates-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--security-green);
+            padding: 40px;
+            height: 100%;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+        }
+
+        .coordinates-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            border-bottom: 20px solid var(--security-green);
+            border-left: 20px solid transparent;
+        }
+
+        .coord-item {
+            margin-bottom: 30px;
+        }
+
+        .coord-label {
+            color: var(--security-green);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .coord-value {
+            color: #fff;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--security-green);
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--security-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes scanline {
+            0% {
+                top: 0%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Grid -->
+    <div class="bg-matrix"></div>
+
+    <!-- cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- navbar start -->
+    <nav class="navbar navbar-area navbar-area-1 navbar-border navbar-expand-lg">
+        <div class="container nav-container px-lg-0">
+            <div class="responsive-mobile-menu">
+                <button class="menu toggle-btn d-block d-lg-none" data-target="#xdyat" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="icon-left"></span>
+                    <span class="icon-right"></span>
+                </button>
+            </div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/img/favicon.png" alt="logo"
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                    <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="xdyat_main_menu">
+                <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a class="active" href="contact.html">Contact Us</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="nav-right-part nav-right-part-desktop d-lg-inline-flex align-item-center">
+                <div class="btn-box d-inline-block">
+                    <button class="me-3 header-menu-toggle bg-transparent border-0 shadow-0" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasright" aria-controls="offcanvasright">
+                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0V3H24V0H0ZM24 21H16V18H24V21ZM24 12H8V9H24V12Z" fill="#fff" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+
+    <!-- Header -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1 class="move-line-3d">Contact Us</h1>
+            <p class="text-white-50" style="max-width: 600px; margin: 0 auto; letter-spacing: 1px;">
+                Get in touch with Vexil Logic Games. We are here to help.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Area -->
+    <section class="pd-bottom-120">
+        <div class="container">
+            <div class="row g-5">
+
+                <!-- Transmission Form -->
+                <div class="col-lg-7">
+                    <div class="transmission-panel fade-slide bottom" data-delay="0.2">
+                        <div class="panel-header">
+                            <h3 class="panel-title">// SEND MESSAGE</h3>
+                            <div class="status-dot"></div>
+                        </div>
+
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group-holo">
+                                        <input type="text" placeholder="YOUR NAME" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group-holo">
+                                        <input type="email" placeholder="YOUR EMAIL" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group-holo">
+                                        <input type="text" placeholder="SUBJECT">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group-holo">
+                                        <textarea rows="6" placeholder="YOUR MESSAGE..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn-transmit">
+                                        <i class="fa fa-paper-plane me-2"></i> SEND MESSAGE
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Coordinates Panel -->
+                <div class="col-lg-5">
+                    <div class="coordinates-panel fade-slide right" data-delay="0.4">
+                        <div class="panel-header" style="border-color: var(--security-green);">
+                            <h3 class="panel-title" style="color: var(--security-green);">// CONTACT INFO</h3>
+                            <i class="fa fa-info-circle" style="color: var(--security-green);"></i>
+                        </div>
+
+                        <div class="coord-item">
+                            <span class="coord-label">ADDRESS</span>
+                            <div class="coord-value">
+                                Centerl Park West LA87,<br>New York, USA
+                            </div>
+                        </div>
+
+                        <div class="coord-item">
+                            <span class="coord-label">EMAIL</span>
+                            <div class="coord-value">
+                                <a href="mailto:info@vexillogic.com"
+                                    style="color: #fff; text-decoration: none;">info@vexillogic.com</a>
+                            </div>
+                        </div>
+
+                        <div class="coord-item">
+                            <span class="coord-label">PHONE</span>
+                            <div class="coord-value">
+                                +3 555 854 326
+                            </div>
+                        </div>
+
+                        <div class="coord-item">
+                            <span class="coord-label">OPEN HOURS</span>
+                            <div class="coord-value">
+                                MON - FRI // 08:00 - 20:00
+                            </div>
+                        </div>
+
+                        <div class="social-links mt-5">
+                            <a href="#" class="me-3" style="color: var(--security-green); font-size: 20px;"><i
+                                    class="fab fa-discord"></i></a>
+                            <a href="#" class="me-3" style="color: var(--security-green); font-size: 20px;"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#" class="me-3" style="color: var(--security-green); font-size: 20px;"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- footer area start -->
+    <footer class="footer-area footer-area-1 pd-top-110 mt--35"
+        style="background-image: url('./assets/img/footer/bg.png');">
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: Logo & Info -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="widget widget_about">
+                        <div class="thumb">
+                            <a href="index.html">
+                                <img src="assets/img/favicon.png" alt="logo"
+                                    style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                                <span class="site-logo-text"><span class="vexil">VEXIL</span><span
+                                        class="logic">LOGIC</span></span>
+                            </a>
+                        </div>
+                        <div class="details">
+                            <p class="mb-3">
+                                New York, USA <br>
+                                vexillogicgames@gmail.com
+                            </p>
+                            <h5>System Status</h5>
+                            <p><strong><span class="color-base">ONLINE</span></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="col-lg-6 col-md-6 text-center text-md-end mt-4 mt-md-0">
+                    <div class="widget widget_nav_menu ps-xl-5">
+                        <h4 class="widget-title">Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">HOME</a></li>
+                            <li><a href="about.html">ABOUT US</a></li>
+                            <li><a href="contact.html">CONTACT</a></li>
+                            <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>© 2026 Vexil Logic Games.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- all plugins here -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fontawesome.min.js"></script>
+    <script src="assets/js/magnific.min.js"></script>
+    <script src="assets/js/nice-select.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/counter-up.min.js"></script>
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/SplitText.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/lenis.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Fallback or explicit triggering similar to policy page
+        const panels = document.querySelectorAll('.transmission-panel, .coordinates-panel');
+        panels.forEach(panel => {
+            gsap.set(panel, { autoAlpha: 0, y: 50 });
+            gsap.to(panel, {
+                duration: 1,
+                autoAlpha: 1,
+                y: 0,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: panel,
+                    start: "top 85%"
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

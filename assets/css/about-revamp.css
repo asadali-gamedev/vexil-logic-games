@@ -1,0 +1,255 @@
+/* =========================================
+   ABOUT US REVAMP (SCI-FI CORE)
+   ========================================= */
+
+/* --- General Scifi Utilities --- */
+.text-neon-cyan {
+    color: #00f3ff;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
+}
+
+.text-neon-green {
+    color: #0f0;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+.bg-deep-void {
+    background-color: #050505;
+}
+
+.font-tech {
+    font-family: var(--body-font);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* --- Hero Section: "Initialising Protocol" --- */
+.about-hero-section {
+    position: relative;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1000px;
+    background: radial-gradient(circle at center, #1a1a2e 0%, #000 70%);
+}
+
+.holo-grid-bg {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: rotateX(60deg) translateY(-20%) translateZ(-100px);
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes gridMove {
+    0% {
+        transform: rotateX(60deg) translateY(0) translateZ(-100px);
+    }
+
+    100% {
+        transform: rotateX(60deg) translateY(50px) translateZ(-100px);
+    }
+}
+
+.hero-glitch-container {
+    text-align: center;
+    z-index: 2;
+}
+
+.big-glitch-text {
+    font-family: var(--heading-font);
+    font-size: clamp(40px, 8vw, 120px);
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    position: relative;
+    line-height: 1;
+}
+
+/* --- Timeline: "The Origin Code" --- */
+.origin-timeline-section {
+    padding: 100px 0;
+    position: relative;
+    background: #000;
+}
+
+.timeline-track {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%);
+}
+
+.timeline-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0%;
+    /* animate this */
+    background: linear-gradient(to bottom, #00f3ff, #0f0);
+    box-shadow: 0 0 15px #00f3ff;
+}
+
+.timeline-node {
+    position: relative;
+    margin-bottom: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    /* slide in */
+}
+
+.node-content-box {
+    width: 45%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    padding: 30px;
+    position: relative;
+    backdrop-filter: blur(5px);
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    transition: all 0.3s ease;
+}
+
+.node-content-box:hover {
+    background: rgba(0, 243, 255, 0.1);
+    border-color: #00f3ff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.2);
+}
+
+.timeline-node.left .node-content-box {
+    margin-right: auto;
+    margin-left: 5%;
+    text-align: right;
+}
+
+.timeline-node.right .node-content-box {
+    margin-left: auto;
+    margin-right: 5%;
+    text-align: left;
+}
+
+.node-dot {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    width: 20px;
+    height: 20px;
+    background: #000;
+    border: 2px solid #00f3ff;
+    transform: translateX(-50%) rotate(45deg);
+    z-index: 5;
+    box-shadow: 0 0 10px #00f3ff;
+}
+
+/* --- Operatives (Team) --- */
+.operatives-section {
+    padding: 100px 0;
+    background: #020205;
+}
+
+.operative-card {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: #000;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: all 0.4s ease;
+}
+
+.operative-card:hover {
+    border-color: #00f3ff;
+}
+
+.op-img-container {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%) contrast(1.2);
+    transition: all 0.4s;
+}
+
+.operative-card:hover .op-img-container {
+    filter: grayscale(0%) contrast(1);
+    opacity: 0.4;
+}
+
+.op-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, black 60%, transparent);
+    transform: translateY(20px);
+    transition: all 0.4s;
+}
+
+.operative-card:hover .op-overlay {
+    transform: translateY(0);
+}
+
+.op-scan-line {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: rgba(0, 243, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 1);
+    z-index: 10;
+    opacity: 0;
+}
+
+.operative-card:hover .op-scan-line {
+    opacity: 1;
+    animation: scanDown 1.5s linear infinite;
+}
+
+@keyframes scanDown {
+    0% {
+        top: -10%;
+    }
+
+    100% {
+        top: 110%;
+    }
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .timeline-track {
+        left: 20px;
+    }
+
+    .node-dot {
+        left: 20px;
+    }
+
+    .timeline-progress {
+        width: 4px;
+    }
+
+    .timeline-node {
+        flex-direction: column;
+        padding-left: 50px;
+    }
+
+    .node-content-box {
+        width: 100%;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+}
