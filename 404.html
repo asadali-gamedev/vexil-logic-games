@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>404 - SYSTEM DEFENSE | Vexil Logic</title>
+    <link rel="icon" href="assets/img/favicon.png" sizes="20x20" type="image/png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --neon-green: #44f580;
+            --neon-dark-green: #2dbd5e;
+            --neon-red: #ff003c;
+            --deep-void: #050510;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--deep-void);
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            height: 100vh;
+            touch-action: none;
+            user-select: none;
+            cursor: crosshair;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Branding Header */
+        .brand-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            z-index: 20;
+            background: linear-gradient(to bottom, rgba(5, 5, 16, 0.9), transparent);
+            box-sizing: border-box;
+            pointer-events: none;
+            /* Let clicks pass */
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--neon-green);
+            font-family: 'Science Gothic', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(68, 245, 128, 0.3);
+        }
+
+        .brand-logo img {
+            height: 48px;
+            width: auto;
+            filter: drop-shadow(0 0 8px var(--neon-green));
+        }
+
+        /* UI Overlay */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hud-top {
+            position: absolute;
+            top: 20px;
+            width: 90%;
+            display: flex;
+            justify-content: flex-end;
+            /* Push score to right, logo is left */
+            align-items: center;
+            font-family: 'Science Gothic', sans-serif;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .score-hud {
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 15px var(--neon-green);
+            text-align: right;
+        }
+
+        .lives-hud {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+            justify-content: flex-end;
+        }
+
+        .life-pip {
+            width: 25px;
+            height: 6px;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+            transform: skewX(-20deg);
+        }
+
+        .life-pip.lost {
+            background: #333;
+            box-shadow: none;
+        }
+
+        /* Boss Bar */
+        #bossHud {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 8px;
+            background: rgba(255, 0, 60, 0.2);
+            border: 1px solid var(--neon-red);
+            display: none;
+            z-index: 15;
+        }
+
+        #bossHp {
+            width: 100%;
+            height: 100%;
+            background: var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-red);
+            transition: width 0.2s;
+        }
+
+        .center-message {
+            text-align: center;
+            pointer-events: auto;
+            background: rgba(5, 5, 16, 0.95);
+            padding: 40px;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 50px rgba(68, 245, 128, 0.3);
+            backdrop-filter: blur(15px);
+            display: none;
+            max-width: 90%;
+            width: 500px;
+            border-radius: 5px;
+            /* Cyberpunk Corners */
+            clip-path: polygon(20px 0, 100% 0,
+                    100% calc(100% - 20px), calc(100% - 20px) 100%,
+                    0 100%, 0 20px);
+        }
+
+        .center-message.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        h1 {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 6rem;
+            margin: 0;
+            color: var(--neon-red);
+            text-shadow: 4px 4px 0px rgba(255, 0, 60, 0.3);
+            text-transform: uppercase;
+            line-height: 0.85;
+        }
+
+        h2 {
+            margin: 10px 0 20px 0;
+            color: var(--neon-green);
+            letter-spacing: 5px;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: #bcd;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* BUTTONS */
+        .actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-green {
+            background: var(--neon-green);
+            color: #050510;
+            padding: 18px 0;
+            width: 80%;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 1.4rem;
+            border: none;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-green:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(68, 245, 128, 0.5);
+            color: white;
+            background: #000;
+            border: 2px solid var(--neon-green);
+        }
+
+        .btn-return {
+            background: transparent;
+            color: #fff;
+            padding: 15px 0;
+            width: 80%;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-return:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+            color: var(--neon-green);
+        }
+
+        .mobile-hint {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            text-align: center;
+            color: var(--neon-green);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: pulse 2s infinite;
+            text-shadow: 0 0 10px rgba(68, 245, 128, 0.5);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .mobile-hint.visible {
+            opacity: 1;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* CRT Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(0, 0, 0, 0.1) 50%,
+                    rgba(0, 0, 0, 0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+
+            .center-message {
+                padding: 30px;
+                width: 85%;
+            }
+
+            .btn-green {
+                font-size: 1.2rem;
+            }
+
+            .brand-header {
+                padding: 15px;
+            }
+
+            .brand-logo {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Branding -->
+    <div class="brand-header">
+        <div class="brand-logo">
+            <img src="assets/img/favicon.png" alt="Vexil Logic Logo">
+            VEXIL LOGIC GAMES
+        </div>
+    </div>
+
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="ui-layer">
+        <div class="hud-top">
+            <div>
+                <div class="score-hud">SCORE: <span id="scoreEl">0</span></div>
+                <div class="lives-hud" id="livesEl">
+                    <!-- Pips generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <div id="bossHud">
+            <div id="bossHp"></div>
+        </div>
+
+        <!-- Start Screen -->
+        <div class="center-message active" id="startScreen">
+            <h1>404</h1>
+            <h2>SECTOR NOT FOUND</h2>
+            <p>You have drifted into unstable territory.<br>Hostiles detected.</p>
+            <div class="actions">
+                <button class="btn-green" onclick="startGame()">
+                    <i class="fa-solid fa-crosshairs"></i> ENGAGE DEFENSE
+                </button>
+                <a href="index.html" class="btn-return">
+                    <i class="fa-solid fa-house-signal"></i> RETURN TO HOME BASE
+                </a>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="center-message" id="gameOverScreen">
+            <h1 style="font-size: 5rem;">CRITICAL<br>FAILURE</h1>
+            <p>System integrity lost.</p>
+            <h2 id="finalScore" style="color:white; font-size: 2rem;">SCORE: 0</h2>
+            <div class="actions">
+                <button class="btn-green" onclick="startGame()">
+                    <i class="fa-solid fa-rotate-right"></i> REBOOT SYSTEM
+                </button>
+                <a href="index.html" class="btn-return">
+                    <i class="fa-solid fa-house-signal"></i> ABORT & RETURN HOME
+                </a>
+            </div>
+        </div>
+
+        <div class="mobile-hint visible" id="hint">HOLD & DRAG TO ENGAGE</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('scoreEl');
+        const livesEl = document.getElementById('livesEl');
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const finalScoreEl = document.getElementById('finalScore');
+        const hintEl = document.getElementById('hint');
+        const bossHud = document.getElementById('bossHud');
+        const bossHp = document.getElementById('bossHp');
+
+        // Config
+        let width, height;
+        let gameActive = false;
+        let score = 0;
+        let frames = 0;
+        let lives = 3;
+        let shake = 0;
+        let isMouseDown = false;
+        let bossActive = false;
+
+        // Vexil Palette
+        const C_GREEN = '#44f580';
+        const C_RED = '#ff003c';
+        const C_BG = '#050510';
+
+        // --- Core Engine ---
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // --- Classes ---
+        class Player {
+            constructor() {
+                this.x = width / 2;
+                this.y = height - 150;
+                this.radius = 25;
+                this.color = C_GREEN;
+                this.speed = 0.15;
+            }
+            draw() {
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = this.color;
+                ctx.fillStyle = gameActive ? this.color : '#333';
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y - this.radius);
+                ctx.lineTo(this.x - this.radius, this.y + this.radius);
+                ctx.lineTo(this.x, this.y + this.radius * 0.5);
+                ctx.lineTo(this.x + this.radius, this.y + this.radius);
+                ctx.closePath();
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            update(tx, ty) {
+                if (gameActive && isMouseDown) {
+                    this.x += (tx - this.x) * this.speed;
+                    this.y += (ty - this.y) * this.speed;
+                    if (frames % 3 === 0) particles.push(new Particle(this.x + (Math.random() - 0.5) * 10, this.y + this.radius, Math.random() * 4 + 2, C_GREEN, { x: (Math.random() - 0.5) * 1, y: Math.random() * 5 + 2 }));
+                    if (frames % 8 === 0) projectiles.push(new Projectile(this.x, this.y - 20, { x: 0, y: -20 }));
+                }
+                this.draw();
+            }
+        }
+
+        class Projectile {
+            constructor(x, y, vel) { this.x = x; this.y = y; this.velocity = vel; this.radius = 3; this.length = 20; }
+            draw() { ctx.shadowBlur = 10; ctx.shadowColor = C_GREEN; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(this.x, this.y); ctx.lineTo(this.x, this.y + this.length); ctx.stroke(); ctx.shadowBlur = 0; }
+            update() { this.x += this.velocity.x; this.y += this.velocity.y; this.draw(); }
+        }
+
+        class Particle {
+            constructor(x, y, r, c, v) { this.x = x; this.y = y; this.radius = r; this.color = c; this.velocity = v; this.alpha = 1; this.decay = Math.random() * 0.03 + 0.01; }
+            draw() { ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+            update() { this.velocity.x *= 0.95; this.velocity.y *= 0.95; this.x += this.velocity.x; this.y += this.velocity.y; this.alpha -= this.decay; this.draw(); }
+        }
+
+        class Enemy {
+            constructor(isBoss = false) {
+                this.isBoss = isBoss;
+                this.radius = isBoss ? 60 : (Math.random() < 0.2 ? 30 : 15);
+                this.hp = isBoss ? 50 : (this.radius > 20 ? 3 : 1);
+                this.maxHp = this.hp;
+                this.x = width / 2;
+                if (!isBoss) this.x = Math.random() * (width - 40) + 20;
+                this.y = -100;
+                this.color = C_RED;
+                this.velocity = {
+                    x: isBoss ? 0 : (Math.random() - 0.5) * 2,
+                    y: isBoss ? 1 : (Math.random() * 3) + 2 + (score / 1000)
+                };
+                if (isBoss) this.velocity.y = 1;
+                this.angle = 0;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.shadowBlur = this.isBoss ? 30 : 15;
+                ctx.shadowColor = C_RED;
+                ctx.fillStyle = C_RED;
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                if (this.isBoss) {
+                    for (let i = 0; i < 6; i++) {
+                        ctx.lineTo(this.radius * Math.cos(i * Math.PI / 3), this.radius * Math.sin(i * Math.PI / 3));
+                    }
+                } else {
+                    ctx.moveTo(0, -this.radius); ctx.lineTo(this.radius, 0); ctx.lineTo(0, this.radius); ctx.lineTo(-this.radius, 0);
+                }
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.restore(); ctx.shadowBlur = 0;
+            }
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                if (this.isBoss) {
+                    this.angle += 0.01;
+                    this.x += Math.sin(frames * 0.02) * 2;
+                    if (this.y > 150) this.velocity.y = 0;
+                    bossHp.style.width = (this.hp / this.maxHp * 100) + '%';
+                } else {
+                    this.angle += 0.1;
+                    if (this.x < 0 || this.x > width) this.velocity.x *= -1;
+                }
+                this.draw();
+            }
+        }
+
+        let player, projectiles, enemies, particles, stars;
+        let targetPos = { x: width / 2, y: height - 150 };
+
+        function init() {
+            player = new Player();
+            projectiles = []; enemies = []; particles = [];
+            score = 0; lives = 3; frames = 0; shake = 0;
+            bossActive = false;
+            bossHud.style.display = 'none';
+            stars = [];
+            for (let i = 0; i < 100; i++) stars.push({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 2, speed: Math.random() * 5 + 1 });
+            updateUI();
+        }
+
+        function animate() {
+            if (!gameActive) return;
+            requestAnimationFrame(animate);
+
+            // Screen Shake
+            let dx = 0, dy = 0;
+            if (shake > 0) { dx = (Math.random() - 0.5) * shake; dy = (Math.random() - 0.5) * shake; shake *= 0.9; if (shake < 0.1) shake = 0; }
+
+            ctx.fillStyle = 'rgba(5, 5, 16, 0.3)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.save(); ctx.translate(dx, dy);
+
+            // Stars
+            ctx.fillStyle = '#666';
+            stars.forEach(star => { star.y += star.speed + (score / 5000); if (star.y > height) { star.y = 0; star.x = Math.random() * width; } ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill(); });
+
+            player.update(targetPos.x, targetPos.y);
+
+            projectiles.forEach((p, i) => { p.update(); if (p.y < 0) projectiles.splice(i, 1); });
+            particles.forEach((p, i) => { if (p.alpha <= 0) particles.splice(i, 1); else p.update(); });
+
+            // Boss Check
+            if (!bossActive && score > 0 && score % 1000 < 100 && score > 500) {
+                bossActive = true;
+                enemies.push(new Enemy(true));
+                bossHud.style.display = 'block';
+                shake = 10;
+            }
+            // Spawn Logic
+            if (!bossActive && frames % 40 === 0) enemies.push(new Enemy());
+
+            enemies.forEach((enemy, i) => {
+                enemy.update();
+
+                const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+                if (dist - enemy.radius - player.radius < 1) {
+                    createExplosion(player.x, player.y, C_GREEN, 50);
+                    shake = 20;
+                    if (!enemy.isBoss) enemies.splice(i, 1);
+                    lives--; updateUI();
+                    if (lives <= 0) endGame();
+                }
+
+                if (enemy.y > height + 50) enemies.splice(i, 1);
+
+                projectiles.forEach((p, pi) => {
+                    const pDist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
+                    if (pDist - enemy.radius - 3 < 1) {
+                        particles.push(new Particle(p.x, p.y, 3, '#fff', { x: (Math.random() - 0.5) * 5, y: (Math.random() - 0.5) * 5 }));
+                        enemy.hp--;
+                        projectiles.splice(pi, 1);
+                        if (enemy.hp <= 0) {
+                            createExplosion(enemy.x, enemy.y, C_RED, enemy.isBoss ? 100 : 20);
+                            score += enemy.isBoss ? 5000 : (100 * (enemy.radius > 20 ? 3 : 1));
+                            shake += enemy.isBoss ? 40 : 5;
+                            enemies.splice(i, 1);
+                            if (enemy.isBoss) { bossActive = false; bossHud.style.display = 'none'; }
+                            updateUI();
+                        }
+                    }
+                });
+            });
+
+            ctx.restore(); frames++;
+        }
+
+        function createExplosion(x, y, color, count) { for (let i = 0; i < count; i++) particles.push(new Particle(x, y, Math.random() * 4 + 1, color, { x: (Math.random() - 0.5) * 10, y: (Math.random() - 0.5) * 10 })); }
+
+        function setTarget(x, y) { targetPos.x = x; targetPos.y = y - 50; }
+        window.addEventListener('mousedown', (e) => { isMouseDown = true; hintEl.classList.remove('visible'); setTarget(e.clientX, e.clientY); });
+        window.addEventListener('mouseup', () => { isMouseDown = false; });
+        window.addEventListener('mousemove', (e) => { if (isMouseDown) setTarget(e.clientX, e.clientY); });
+        window.addEventListener('touchstart', (e) => { isMouseDown = true; hintEl.classList.remove('visible'); setTarget(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+        window.addEventListener('touchend', () => { isMouseDown = false; });
+        window.addEventListener('touchmove', (e) => { if (isMouseDown) { setTarget(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); } }, { passive: false });
+
+        function startGame() { startScreen.classList.remove('active'); gameOverScreen.classList.remove('active'); gameActive = true; init(); animate(); }
+        function endGame() { gameActive = false; finalScoreEl.innerText = score.toLocaleString(); gameOverScreen.classList.add('active'); }
+        function updateUI() { scoreEl.innerText = score.toLocaleString(); livesEl.innerHTML = ''; for (let i = 0; i < 3; i++) { const pip = document.createElement('div'); pip.className = 'life-pip' + (i >= lives ? ' lost' : ''); livesEl.appendChild(pip); } }
+
+        init();
+        function idleLoop() { if (gameActive) return; requestAnimationFrame(idleLoop); ctx.fillStyle = '#050510'; ctx.fillRect(0, 0, width, height); ctx.fillStyle = '#333'; stars.forEach(star => { star.y += star.speed * 0.2; if (star.y > height) star.y = 0; ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill(); }); }
+        idleLoop();
+
+    </script>
+</body>
+
+</html>
