@@ -308,6 +308,307 @@
     </div>
     <!-- feature-area end -->
 
+    <!-- HYPERSPACE ARCADE SECTION -->
+    <style>
+        .hyperspace-arcade {
+            position: relative;
+            padding: 80px 0;
+            background: #050510;
+            overflow: hidden;
+            border-top: 5px solid #44f580;
+            border-bottom: 5px solid #ff003c;
+        }
+
+        /* CRT Scanline Overlay */
+        .crt-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 5;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Moving Marquee Background */
+        .marquee-container {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateY(-50%) rotate(-5deg) scale(1.2);
+            z-index: 1;
+            opacity: 0.1;
+            pointer-events: none;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .marquee-text {
+            font-size: 15rem;
+            font-weight: 900;
+            font-family: 'Jersey 25', sans-serif;
+            /* Using available font or fallback */
+            color: transparent;
+            -webkit-text-stroke: 2px #fff;
+            animation: marqueeScroll 20s linear infinite;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Container & Cards */
+        .arcade-grid {
+            position: relative;
+            z-index: 20;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            padding: 20px;
+            perspective: 2000px;
+        }
+
+        .hyper-card {
+            position: relative;
+            height: 450px;
+            background: #000;
+            border: 2px solid #333;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            transform: rotateY(-15deg) rotateX(10deg);
+            /* Default Skew */
+            overflow: hidden;
+        }
+
+        .hyper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hyper-card:hover {
+            transform: rotateY(0deg) rotateX(0deg) scale(1.1);
+            border-color: var(--card-color);
+            box-shadow:
+                0 0 30px var(--card-color),
+                inset 0 0 20px var(--card-color);
+            z-index: 30;
+        }
+
+        .card-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            /* filter: grayscale(100%) contrast(1.2); REMOVED GRAYSCALE */
+            transition: 0.4s;
+            opacity: 0.8;
+        }
+
+        .hyper-card:hover .card-bg-img {
+            /* filter: grayscale(0%) contrast(1.1); */
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+            z-index: 5;
+            transform: translateZ(20px);
+        }
+
+        .card-title {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            font-family: 'Rajdhani', sans-serif;
+            color: #ccc;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s;
+        }
+
+        .hyper-card:hover .card-stats {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Glitch Button */
+        .glitch-btn-wrapper {
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .mega-glitch-btn {
+            display: inline-block;
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 2rem;
+            background: #fff;
+            color: #000;
+            padding: 20px 60px;
+            text-transform: uppercase;
+            font-weight: 900;
+            position: relative;
+            clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+            transition: all 0.3s ease;
+            border: none;
+            overflow: hidden;
+        }
+
+        .mega-glitch-btn:hover {
+            background: #44f580;
+            color: #000;
+            box-shadow: 0 0 30px #44f580;
+            transform: scale(1.05);
+            letter-spacing: 2px;
+        }
+
+        .mega-glitch-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transition: 0.5s;
+        }
+
+        .mega-glitch-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Removed glitch-flash, added smooth hover transition */
+        }
+        }
+
+        /* Random floating elements */
+        .float-decoration {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.05);
+            font-family: 'Rajdhani', monospace;
+            z-index: 2;
+            pointer-events: none;
+        }
+    </style>
+
+    <section class="hyperspace-arcade">
+        <div class="crt-overlay"></div>
+
+        <!-- Background Text -->
+        <div class="marquee-container">
+            <div class="marquee-text">
+                VEXIL ARCADE // SYSTEM BREACH // HIGH VOLTAGE // VEXIL ARCADE // SYSTEM BREACH // HIGH VOLTAGE //
+            </div>
+        </div>
+
+        <!-- Decor Removed -->
+
+        <div class="container" style="position: relative; z-index: 10;">
+            <div class="row mb-5 text-center">
+                <div class="col-12">
+                    <h2
+                        style="color:#fff; font-family:'Science Gothic'; font-size: 4rem; text-transform:uppercase; letter-spacing:10px; margin:0;">
+                        <span style="color:#44f580">ARCADE</span> PROTOCOL
+                    </h2>
+                </div>
+            </div>
+
+            <div class="arcade-grid">
+                <!-- System Defense -->
+                <a href="mini-games/system-defense/index.html" class="hyper-card" style="--card-color: #44f580;">
+                    <div class="card-bg-img"
+                        style="background-image: url('assets/img/arcade_thumbnails/system_defense.png');"></div>
+                    <div class="card-content">
+                        <div class="card-title">System<br>Defense</div>
+                        <div class="card-stats">
+                            <span class="stat-badge">SHOOTER</span>
+                            <span class="stat-badge" style="color:#44f580">ONLINE</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Neon Snake -->
+                <a href="mini-games/neon-snake/index.html" class="hyper-card"
+                    style="--card-color: #ff003c; transform: rotateY(10deg) rotateX(5deg) translateY(30px);">
+                    <div class="card-bg-img"
+                        style="background-image: url('assets/img/arcade_thumbnails/neon_snake.png');"></div>
+                    <div class="card-content">
+                        <div class="card-title">Neon<br>Snake</div>
+                        <div class="card-stats">
+                            <span class="stat-badge">CLASSIC</span>
+                            <span class="stat-badge" style="color:#ff003c">V3.0</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Cyber Pong -->
+                <a href="mini-games/cyber-pong/index.html" class="hyper-card"
+                    style="--card-color: #00f0ff; transform: rotateY(-5deg) rotateX(15deg) translateY(60px);">
+                    <div class="card-bg-img"
+                        style="background-image: url('assets/img/arcade_thumbnails/cyber_pong.png');"></div>
+                    <div class="card-content">
+                        <div class="card-title">Cyber<br>Pong</div>
+                        <div class="card-stats">
+                            <span class="stat-badge">SPORTS</span>
+                            <span class="stat-badge" style="color:#00f0ff">PVP/AI</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="glitch-btn-wrapper">
+                <a href="mini-games/index.html" class="mega-glitch-btn">
+                    ENTER THE VOID
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- SYSTEM ARCHITECTURE SECTION -->
     <section class="architecture-area pd-top-110 pd-bottom-110">
         <!-- Floating Matrix BG -->

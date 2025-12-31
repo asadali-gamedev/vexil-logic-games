@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Void Runner | Vexil Logic Games</title>
+    <link rel="icon" href="../../assets/img/favicon.png" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #44f580;
+            --neon-red: #ff003c;
+            --neon-blue: #00f0ff;
+            --deep-void: #050510;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--deep-void);
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            touch-action: none;
+            user-select: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-bar {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5, 5, 16, 0.9), transparent);
+            pointer-events: auto;
+        }
+
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .back-btn:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .hud {
+            text-align: right;
+        }
+
+        .score {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .coins {
+            font-size: 1.2rem;
+            color: #ffd700;
+            margin-top: 5px;
+        }
+
+        .screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(5, 5, 16, 0.95);
+            padding: 50px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            text-align: center;
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+            min-width: 350px;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 3.5rem;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            text-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .btn {
+            background: var(--neon-blue);
+            border: none;
+            color: #000;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #fff;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .warp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 240, 255, 0.1) 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scanlines"></div>
+    <div class="warp-overlay"></div>
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="ui-layer">
+        <div class="header-bar">
+            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
+            <div class="hud">
+                <div class="score" id="score">0000m</div>
+                <div class="coins"><i class="fa-solid fa-bolt"></i> <span id="coins">0</span></div>
+            </div>
+        </div>
+
+        <div id="startScreen" class="screen">
+            <h1>VOID RUNNER</h1>
+            <p style="color:#ccc; font-size: 1.2rem;">HYPER EDITION V4.0</p>
+            <p style="margin-top:10px;">TAP TO JUMP | HOLD TO GLIDE</p>
+            <button class="btn" onclick="startGame()">INITIATE RUN</button>
+        </div>
+        <div id="gameOverScreen" class="screen hidden">
+            <h1 style="color:var(--neon-red);">SIGNAL LOST</h1>
+            <p>DISTANCE: <span id="finalScore">0</span>m</p>
+            <button class="btn" style="background:var(--neon-red); color:#fff;" onclick="startGame()">RETRY</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let gameActive = false;
+        let speed = 10;
+        let score = 0;
+        let energy = 0;
+        let gravity = 0.8;
+        let floorY;
+
+        // Player
+        let p = { x: 100, y: 0, w: 40, h: 40, dy: 0, grounded: false, gliding: false, color: '#00f0ff', trail: [] };
+        let obstacles = [];
+        let particles = [];
+        let stars = [];
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            floorY = height - 100;
+            p.y = floorY - p.h;
+            initStars();
+        }
+        window.addEventListener('resize', resize);
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < 100; i++) stars.push({ x: Math.random() * width, y: Math.random() * height, s: Math.random() * 3 });
+        }
+
+        function startGame() {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            score = 0; energy = 0; speed = 10;
+            p.y = floorY - p.h; p.dy = 0; p.trail = [];
+            obstacles = []; particles = [];
+            gameActive = true;
+            animate();
+        }
+
+        function spawnObstacle() {
+            let type = Math.random();
+            if (type > 0.6) {
+                // Ground Block
+                obstacles.push({ x: width, y: floorY - 50, w: 40, h: 50, type: 'block' });
+            } else if (type > 0.3) {
+                // Drone (Air)
+                obstacles.push({ x: width, y: floorY - 120, w: 40, h: 20, type: 'drone' });
+            } else {
+                // Energy Orb
+                obstacles.push({ x: width, y: Math.random() > 0.5 ? floorY - 150 : floorY - 40, w: 20, h: 20, type: 'orb' });
+            }
+        }
+
+        function animate() {
+            if (!gameActive) return;
+            requestAnimationFrame(animate);
+
+            score += speed / 20;
+            speed += 0.005;
+            document.getElementById('score').innerText = Math.floor(score) + "m";
+            document.getElementById('coins').innerText = energy;
+
+            ctx.fillStyle = '#050510';
+            ctx.fillRect(0, 0, width, height);
+
+            // Stars (Warp Effect)
+            ctx.fillStyle = '#fff';
+            stars.forEach(s => {
+                s.x -= speed * (s.s / 2);
+                if (s.x < 0) s.x = width;
+                ctx.globalAlpha = 0.5;
+                ctx.beginPath(); ctx.rect(s.x, s.y, s.s * 5, s.s); ctx.fill(); // Stretch
+            });
+            ctx.globalAlpha = 1;
+
+            // Floor (Grid)
+            ctx.fillStyle = '#111';
+            ctx.fillRect(0, floorY, width, height - floorY);
+            ctx.strokeStyle = '#00f0ff';
+            ctx.beginPath(); ctx.moveTo(0, floorY); ctx.lineTo(width, floorY); ctx.stroke();
+
+            // Player Logic
+            if (p.gliding && p.dy > 0) p.dy = 2; // Glide
+            else p.dy += gravity;
+
+            p.y += p.dy;
+
+            if (p.y > floorY - p.h) {
+                p.y = floorY - p.h;
+                p.dy = 0;
+                p.grounded = true;
+                if (Math.random() > 0.5) spawnParticles(p.x, p.y + p.h, '#00f0ff', 1); // Sparkle running
+            } else {
+                p.grounded = false;
+            }
+
+            // Draw Player + Trail
+            p.trail.push({ x: p.x, y: p.y });
+            if (p.trail.length > 20) p.trail.shift();
+
+            for (let i = 0; i < p.trail.length; i++) {
+                let t = p.trail[i];
+                ctx.globalAlpha = i / 20;
+                ctx.fillStyle = p.color;
+                ctx.fillRect(t.x - (20 - i), t.y, p.w, p.h);
+            }
+            ctx.globalAlpha = 1;
+
+            ctx.shadowBlur = 20; ctx.shadowColor = p.color; ctx.fillStyle = '#fff';
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+
+            // Obstacles
+            if (Math.random() < 0.02) spawnObstacle();
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let o = obstacles[i];
+                o.x -= speed;
+
+                if (o.type === 'orb') {
+                    ctx.shadowColor = '#ffd700'; ctx.fillStyle = '#ffd700';
+                    ctx.beginPath(); ctx.arc(o.x + 10, o.y + 10, 10, 0, Math.PI * 2); ctx.fill();
+
+                    if (rectIntersect(p.x, p.y, p.w, p.h, o.x, o.y, o.w, o.h)) {
+                        energy++;
+                        spawnParticles(o.x, o.y, '#ffd700', 10);
+                        obstacles.splice(i, 1);
+                    }
+                } else {
+                    ctx.shadowColor = '#ff003c'; ctx.fillStyle = '#ff003c';
+                    if (o.type === 'drone') {
+                        ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(o.x + 20, o.y + 20); ctx.lineTo(o.x + 40, o.y); ctx.fill();
+                    } else {
+                        ctx.fillRect(o.x, o.y, o.w, o.h);
+                    }
+
+                    if (rectIntersect(p.x + 5, p.y + 5, p.w - 10, p.h - 10, o.x, o.y, o.w, o.h)) {
+                        gameOver();
+                    }
+                }
+
+                if (o.x < -100) obstacles.splice(i, 1);
+            }
+
+            // Particles
+            particles.forEach((pt, i) => {
+                pt.x -= speed; pt.x += pt.vx; pt.y += pt.vy; pt.life -= 0.05;
+                ctx.fillStyle = pt.c; ctx.globalAlpha = pt.life;
+                ctx.fillRect(pt.x, pt.y, pt.s, pt.s);
+                ctx.globalAlpha = 1;
+                if (pt.life <= 0) particles.splice(i, 1);
+            });
+
+            ctx.restore();
+        }
+
+        function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+            return x2 < x1 + w1 && x2 + w2 > x1 && y2 < y1 + h1 && y2 + h2 > y1;
+        }
+
+        function spawnParticles(x, y, c, n) {
+            for (let i = 0; i < n; i++) particles.push({ x: x, y: y, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10, life: 1, c: c, s: Math.random() * 4 });
+        }
+
+        function jump() {
+            if (p.grounded) {
+                p.dy = -15;
+                p.grounded = false;
+                spawnParticles(p.x, p.y + p.h, '#00f0ff', 10);
+            } else {
+                p.gliding = true;
+            }
+        }
+
+        function stopGlide() { p.gliding = false; }
+
+        function gameOver() {
+            gameActive = false;
+            ArcadeProfile.reportGame('void-runner', score);
+            document.getElementById('finalScore').innerText = Math.floor(score);
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+        }
+
+        window.addEventListener('mousedown', jump);
+        window.addEventListener('mouseup', stopGlide);
+        window.addEventListener('touchstart', (e) => { e.preventDefault(); jump(); });
+        window.addEventListener('touchend', (e) => { e.preventDefault(); stopGlide(); });
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') jump(); });
+        window.addEventListener('keyup', (e) => { if (e.code === 'Space') stopGlide(); });
+
+        resize();
+        initStars();
+    </script>
+    <script src="../../assets/js/arcade-profile.js"></script>
+</body>
+
+</html>

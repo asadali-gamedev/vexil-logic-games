@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyber Pong | Vexil Logic Games</title>
+    <link rel="icon" href="../../assets/img/favicon.png" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #44f580;
+            --neon-red: #ff003c;
+            --neon-blue: #00f0ff;
+            --deep-void: #050510;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--deep-void);
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            touch-action: none;
+            user-select: none;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            filter: contrast(1.2) brightness(1.1);
+        }
+
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .header-bar {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, rgba(5, 5, 16, 0.9), transparent);
+            pointer-events: auto;
+        }
+
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            pointer-events: auto;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .score-display {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 15px currentColor;
+            display: flex;
+            gap: 40px;
+        }
+
+        .overlay-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(5, 5, 16, 0.95);
+            padding: 50px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            pointer-events: auto;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 350px;
+            z-index: 20;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 3.5rem;
+            background: linear-gradient(to right, var(--neon-blue), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        }
+
+        p {
+            color: #ccc;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .btn-play {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            transition: 0.2s;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-play:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+            z-index: 90;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="ui-layer">
+        <div class="header-bar">
+            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Arcade Nexus</a>
+            <div class="score-display">
+                <span id="pScore" style="color:var(--neon-green)">0</span>
+                <span style="font-size:1.5rem; margin-top:20px; color:#555; opacity:0.5">vs</span>
+                <span id="aiScore" style="color:var(--neon-red)">0</span>
+            </div>
+        </div>
+        <div id="startScreen" class="overlay-screen">
+            <h1>CYBER PONG</h1>
+            <p>HYPER EDITION V4.0</p>
+            <div style="font-size:0.9rem; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
+                <p>MOVE TO DEFEND</p>
+                <p>SLAM TO SMASH</p>
+            </div>
+            <button class="btn-play" onclick="startGame()">INITIATE SEQUENCE</button>
+        </div>
+        <div id="gameOverScreen" class="overlay-screen hidden">
+            <h1 id="winnerText"></h1>
+            <p>MATCH COMPLETE</p>
+            <button class="btn-play" onclick="startGame()">REMATCH</button>
+        </div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let pScore = 0, aiScore = 0;
+        let paddleH = 100, paddleW = 15;
+        let playerY = 0, aiY = 0;
+        let ball = { x: 0, y: 0, vx: 0, vy: 0, speed: 10, radius: 8 };
+        let particles = [];
+        let gridOffset = 0;
+        let shake = 0;
+        let gameActive = false;
+        let winner = '';
+
+        // Init
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            if (!gameActive) {
+                playerY = height / 2 - paddleH / 2;
+                aiY = height / 2 - paddleH / 2;
+            }
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function resetBall() {
+            ball.x = width / 2;
+            ball.y = height / 2;
+            ball.speed = 10;
+            // Launch slightly towards loser or random
+            let dir = Math.random() > 0.5 ? 1 : -1;
+            ball.vx = dir * ball.speed;
+            ball.vy = (Math.random() * 2 - 1) * 4;
+            shake = 10; // Impact start
+        }
+
+        function startGame() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            pScore = 0; aiScore = 0;
+            updateScore();
+            resetBall();
+            gameActive = true;
+            animate();
+        }
+
+        function updateScore() {
+            document.getElementById('pScore').innerText = pScore;
+            document.getElementById('aiScore').innerText = aiScore;
+        }
+
+        function spawnParticles(x, y, color, speed) {
+            for (let i = 0; i < 20; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * speed,
+                    vy: (Math.random() - 0.5) * speed,
+                    life: 1.0,
+                    color: color,
+                    size: Math.random() * 3 + 1
+                });
+            }
+        }
+
+        function animate() {
+            if (!gameActive) return;
+            requestAnimationFrame(animate);
+
+            // Shake Check
+            let sx = 0, sy = 0;
+            if (shake > 0) {
+                sx = (Math.random() - 0.5) * shake;
+                sy = (Math.random() - 0.5) * shake;
+                shake *= 0.9;
+            }
+
+            // --- Draw Background ---
+            ctx.fillStyle = '#050510';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.translate(sx, sy);
+
+            // Grid Effect
+            gridOffset = (gridOffset + 0.5) % 40;
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            // Verticals
+            for (let x = 40; x < width; x += 40) {
+                ctx.moveTo(x, 0); ctx.lineTo(x, height);
+            }
+            // Horizontals (Moving)
+            for (let y = gridOffset; y < height; y += 40) {
+                ctx.moveTo(0, y); ctx.lineTo(width, y);
+            }
+            ctx.stroke();
+
+            // Center Line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 4;
+            ctx.setLineDash([20, 20]);
+            ctx.beginPath(); ctx.moveTo(width / 2, 0); ctx.lineTo(width / 2, height); ctx.stroke();
+            ctx.setLineDash([]);
+
+            // --- Logic ---
+            // AI Movement
+            let aiTarget = ball.y - paddleH / 2;
+            let aiSpeed = 8 + (aiScore * 0.5); // AI gets faster
+            // Simple Lerp
+            if (aiY < aiTarget - 10) aiY += aiSpeed;
+            if (aiY > aiTarget + 10) aiY -= aiSpeed;
+            // Clamp
+            aiY = Math.max(0, Math.min(height - paddleH, aiY));
+
+            // Ball Physics
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+
+            // Walls
+            if (ball.y < 0 || ball.y > height) {
+                ball.vy *= -1;
+                spawnParticles(ball.x, ball.y, '#fff', 10);
+            }
+
+            // Paddle Hit - Player
+            if (ball.x - ball.radius < 30 + paddleW && ball.y > playerY && ball.y < playerY + paddleH) {
+                ball.vx = Math.abs(ball.vx) + 0.5; // Speed up
+                ball.x = 30 + paddleW + ball.radius; // Push out
+
+                // Angle based on hit position
+                let hitPos = (ball.y - (playerY + paddleH / 2)) / (paddleH / 2);
+                ball.vy = hitPos * 15; // Curve
+
+                spawnParticles(ball.x, ball.y, '#44f580', 20);
+                shake = 10;
+            }
+
+            // Paddle Hit - AI
+            if (ball.x + ball.radius > width - 30 - paddleW && ball.y > aiY && ball.y < aiY + paddleH) {
+                ball.vx = -(Math.abs(ball.vx) + 0.5);
+                ball.x = width - 30 - paddleW - ball.radius;
+
+                let hitPos = (ball.y - (aiY + paddleH / 2)) / (paddleH / 2);
+                ball.vy = hitPos * 15;
+
+                spawnParticles(ball.x, ball.y, '#ff003c', 20);
+                shake = 10;
+            }
+
+            // Scoring
+            if (ball.x < -50) {
+                aiScore++; updateScore();
+                spawnParticles(0, height / 2, '#ff003c', 30);
+                checkWin();
+                if (gameActive) resetBall();
+            }
+            if (ball.x > width + 50) {
+                pScore++; updateScore();
+                spawnParticles(width, height / 2, '#44f580', 30);
+                checkWin();
+                if (gameActive) resetBall();
+            }
+
+            // --- Draw Objects ---
+
+            // Paddles (Neon Glow)
+            ctx.shadowBlur = 20;
+
+            // Player
+            ctx.shadowColor = '#44f580'; ctx.fillStyle = '#44f580';
+            ctx.beginPath(); ctx.roundRect(30, playerY, paddleW, paddleH, 4); ctx.fill();
+
+            // AI
+            ctx.shadowColor = '#ff003c'; ctx.fillStyle = '#ff003c';
+            ctx.beginPath(); ctx.roundRect(width - 30 - paddleW, aiY, paddleW, paddleH, 4); ctx.fill();
+
+            // Ball (With Trail)
+            ctx.shadowColor = '#00f0ff'; ctx.fillStyle = '#fff';
+            ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); ctx.fill();
+
+            // Particles
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                p.life -= 0.02;
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                ctx.globalAlpha = 1;
+                if (p.life <= 0) particles.splice(i, 1);
+            });
+
+            ctx.restore();
+        }
+
+        function checkWin() {
+            if (pScore >= 10 || aiScore >= 10) {
+                gameActive = false;
+
+                // Profile Report
+                if (pScore > aiScore) {
+                    ArcadeProfile.reportGame('cyber-pong', pScore * 100);
+                } else {
+                    ArcadeProfile.reportGame('cyber-pong', pScore * 10);
+                }
+
+                let win = pScore > aiScore;
+                document.getElementById('winnerText').innerText = win ? 'YOU WIN' : 'SYSTEM WINS';
+                document.getElementById('winnerText').style.color = win ? 'var(--neon-green)' : 'var(--neon-red)';
+                document.getElementById('gameOverScreen').classList.remove('hidden');
+            }
+        }
+
+
+        // Controls
+        window.addEventListener('mousemove', e => {
+            playerY = e.clientY - paddleH / 2;
+            // Clamp
+            playerY = Math.max(0, Math.min(height - paddleH, playerY));
+        });
+
+        window.addEventListener('touchmove', e => {
+            e.preventDefault(); // Prevent scrolling
+            playerY = e.touches[0].clientY - paddleH / 2;
+            playerY = Math.max(0, Math.min(height - paddleH, playerY));
+        }, { passive: false });
+
+    </script>
+    <script src="../../assets/js/arcade-profile.js"></script>
+</body>
+
+</html>

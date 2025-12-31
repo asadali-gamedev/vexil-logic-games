@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Snake | Vexil Logic Games</title>
+    <link rel="icon" href="../../assets/img/favicon.png" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #44f580;
+            --neon-red: #ff003c;
+            --neon-blue: #00f0ff;
+            --deep-void: #050510;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--deep-void);
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            height: 100vh;
+            touch-action: none;
+            user-select: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #050510;
+        }
+
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .header-bar {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, rgba(5, 5, 16, 0.9), transparent);
+            pointer-events: auto;
+        }
+
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .score-display {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .overlay-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(5, 5, 16, 0.95);
+            padding: 50px;
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            pointer-events: auto;
+            backdrop-filter: blur(10px);
+            min-width: 350px;
+            z-index: 100;
+            box-shadow: 0 0 50px rgba(68, 245, 128, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 3.5rem;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            text-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .btn-play {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            transition: 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-play:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-green);
+        }
+
+        .floating-text {
+            position: absolute;
+            font-family: 'Science Gothic';
+            color: #fff;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            text-shadow: 0 0 10px #fff;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(1.5);
+            }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scanlines"></div>
+    <div class="ui-layer">
+        <div class="header-bar">
+            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
+            <div class="score-display">DATA: <span id="scoreEl">0</span></div>
+        </div>
+
+        <div id="startScreen" class="overlay-screen">
+            <h1>NEON SERPENT</h1>
+            <p style="color:#ccc; font-size:1.2rem;">HYPER EDITION V4.0</p>
+            <p style="margin-top:20px; color:#888;">CONSUME DATA CLUSTERS</p>
+            <button class="btn-play" onclick="startGame()">INITIALIZE</button>
+        </div>
+
+        <div id="gameOverScreen" class="overlay-screen hidden">
+            <h1 style="color: var(--neon-red);">SYSTEM CRASH</h1>
+            <p style="color:#ccc;">DATA UPLOADED: <span id="finalScore">0</span></p>
+            <button class="btn-play" style="color:var(--neon-red); border-color:var(--neon-red);"
+                onclick="startGame()">REBOOT</button>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('scoreEl');
+        const uiLayer = document.querySelector('.ui-layer');
+
+        const gridSize = 40;
+        let tileCountX, tileCountY;
+        let snake = [];
+        let food = {};
+        let dx = 0, dy = 0;
+        let score = 0;
+        let gameLoop;
+        let speed = 120;
+        let particles = [];
+        let shake = 0;
+        let gridPulse = 0;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            tileCountX = Math.floor(canvas.width / gridSize);
+            tileCountY = Math.floor(canvas.height / gridSize);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function startGame() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            let centerX = Math.floor(tileCountX / 2);
+            let centerY = Math.floor(tileCountY / 2);
+            snake = [{ x: centerX, y: centerY }, { x: centerX - 1, y: centerY }, { x: centerX - 2, y: centerY }];
+            dx = 1; dy = 0;
+            score = 0;
+            speed = 120;
+            scoreEl.innerText = score;
+            spawnFood();
+            particles = [];
+            shake = 0;
+            if (gameLoop) clearTimeout(gameLoop);
+            gameLoop = setTimeout(gameCycle, speed);
+            requestAnimationFrame(render);
+        }
+
+        function gameCycle() {
+            update();
+            if (!document.getElementById('gameOverScreen').classList.contains('hidden')) return;
+            gameLoop = setTimeout(gameCycle, speed);
+        }
+
+        function spawnFood() {
+            food = {
+                x: Math.floor(Math.random() * tileCountX),
+                y: Math.floor(Math.random() * tileCountY),
+                type: Math.random() > 0.8 ? 'super' : 'normal',
+                color: Math.random() > 0.8 ? '#00f0ff' : '#44f580'
+            };
+        }
+
+        function createFloatingText(text, x, y, color = '#fff') {
+            const el = document.createElement('div');
+            el.classList.add('floating-text');
+            el.innerText = text;
+            el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.color = color; el.style.textShadow = `0 0 10px ${color}`;
+            uiLayer.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function update() {
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+            // Warp Walls
+            if (head.x < 0) head.x = tileCountX - 1;
+            if (head.x >= tileCountX) head.x = 0;
+            if (head.y < 0) head.y = tileCountY - 1;
+            if (head.y >= tileCountY) head.y = 0;
+
+            // Self Collision
+            for (let i = 0; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    crash(); return;
+                }
+            }
+
+            snake.unshift(head);
+
+            // Eat Food
+            if (head.x === food.x && head.y === food.y) {
+                let points = food.type === 'super' ? 50 : 10;
+                score += points;
+                scoreEl.innerText = score;
+                shake = 10;
+                spawnParticles(head.x * gridSize + gridSize / 2, head.y * gridSize + gridSize / 2, food.color, 20);
+
+                let screenX = head.x * gridSize;
+                let screenY = head.y * gridSize;
+                createFloatingText('+' + points, screenX, screenY, food.color);
+
+                spawnFood();
+                speed = Math.max(50, speed - 2); // Speed up caps at 50ms
+            } else {
+                snake.pop();
+            }
+        }
+
+        function crash() {
+            shake = 30;
+            spawnParticles(snake[0].x * gridSize, snake[0].y * gridSize, '#ff003c', 50);
+            ArcadeProfile.reportGame('neon-snake', score);
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+        }
+
+        function spawnParticles(x, y, color, count) {
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 15, vy: (Math.random() - 0.5) * 15,
+                    life: 1.0, color: color, size: Math.random() * 5 + 2
+                });
+            }
+        }
+
+        function render() {
+            requestAnimationFrame(render);
+
+            // Shake
+            let sx = 0, sy = 0;
+            if (shake > 0) { sx = (Math.random() - 0.5) * shake; sy = (Math.random() - 0.5) * shake; shake *= 0.9; }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(sx, sy);
+
+            // Grid Pulse
+            gridPulse += 0.05;
+            ctx.strokeStyle = `rgba(0, 240, 255, ${0.05 + Math.sin(gridPulse) * 0.03})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
+            for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
+            ctx.stroke();
+
+            // Food (Neon Glow)
+            let fx = food.x * gridSize + gridSize / 2;
+            let fy = food.y * gridSize + gridSize / 2;
+            ctx.shadowColor = food.color; ctx.shadowBlur = 30; ctx.fillStyle = food.color;
+            ctx.beginPath();
+            if (food.type === 'super') {
+                // Star shape for super food
+                ctx.moveTo(fx, fy - 15); ctx.lineTo(fx + 10, fy + 10); ctx.lineTo(fx - 15, fy - 5); ctx.lineTo(fx + 15, fy - 5); ctx.lineTo(fx - 10, fy + 10);
+            } else {
+                ctx.arc(fx, fy, 10, 0, Math.PI * 2);
+            }
+            ctx.fill();
+
+            // Snake (Glowing Trail)
+            snake.forEach((part, i) => {
+                let px = part.x * gridSize + 2;
+                let py = part.y * gridSize + 2;
+                let s = gridSize - 4;
+
+                let hue = (score + i * 5) % 360;
+                let color = i === 0 ? '#fff' : `hsl(${hue}, 100%, 50%)`;
+
+                ctx.shadowColor = color; ctx.shadowBlur = i === 0 ? 20 : 10;
+                ctx.fillStyle = color;
+
+                ctx.beginPath(); ctx.roundRect(px, py, s, s, 8); ctx.fill();
+            });
+
+            // Particles
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.life -= 0.03;
+                ctx.globalAlpha = p.life; ctx.fillStyle = p.color; ctx.shadowBlur = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                ctx.globalAlpha = 1;
+                if (p.life <= 0) particles.splice(i, 1);
+            });
+
+            ctx.restore();
+        }
+
+        // Input
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowUp' && dy !== 1) { dx = 0; dy = -1; }
+            if (e.key === 'ArrowDown' && dy !== -1) { dx = 0; dy = 1; }
+            if (e.key === 'ArrowLeft' && dx !== 1) { dx = -1; dy = 0; }
+            if (e.key === 'ArrowRight' && dx !== -1) { dx = 1; dy = 0; }
+        });
+
+        // Touch
+        let tx = 0, ty = 0;
+        document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: false });
+        document.addEventListener('touchend', e => {
+            let dxT = e.changedTouches[0].clientX - tx;
+            let dyT = e.changedTouches[0].clientY - ty;
+            if (Math.abs(dxT) > Math.abs(dyT)) {
+                if (dxT > 0 && dx !== -1) { dx = 1; dy = 0; } else if (dxT < 0 && dx !== 1) { dx = -1; dy = 0; }
+            } else {
+                if (dyT > 0 && dy !== -1) { dx = 0; dy = 1; } else if (dyT < 0 && dy !== 1) { dx = 0; dy = -1; }
+            }
+        });
+        document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+    </script>
+    <script src="../../assets/js/arcade-profile.js"></script>
+</body>
+
+</html>

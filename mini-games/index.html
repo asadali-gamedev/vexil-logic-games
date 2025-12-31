@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Nexus | Vexil Logic Games</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/img/favicon.png" type="image/png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/animate.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="../assets/css/magnific.min.css">
+    <link rel="stylesheet" href="../assets/css/swiper.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Hub Specific Styles */
+        :root {
+            --neon-green: #44f580;
+            --neon-red: #ff003c;
+            --neon-blue: #00f0ff;
+            --deep-void: #050510;
+        }
+
+        body {
+            background-color: var(--deep-void);
+            overflow-x: hidden;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* Hero Section */
+        .arcade-hero {
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(to bottom, #050510 0%, #1a0b1e 100%);
+            overflow: hidden;
+            border-bottom: 2px solid var(--neon-green);
+        }
+
+        /* 3D Cyber Grid */
+        .arcade-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(68, 245, 128, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(68, 245, 128, 0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: gridScroll 4s linear infinite;
+            z-index: 1;
+            opacity: 0.6;
+            box-shadow: 0 0 50px rgba(68, 245, 128, 0.2);
+        }
+
+        @keyframes gridScroll {
+            0% {
+                transform: perspective(500px) rotateX(60deg) translateY(0);
+            }
+
+            100% {
+                transform: perspective(500px) rotateX(60deg) translateY(60px);
+            }
+        }
+
+        /* Synthwave Sun */
+        .retro-sun {
+            position: absolute;
+            bottom: 20%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(to top, #ff003c, #ffbd00);
+            border-radius: 50%;
+            z-index: 0;
+            box-shadow: 0 0 80px rgba(255, 0, 60, 0.6);
+            /* Create stripes */
+            mask-image: linear-gradient(to bottom,
+                    black 0%, black 50%,
+                    transparent 50%, transparent 55%,
+                    black 55%, black 60%,
+                    transparent 60%, transparent 65%,
+                    black 65%, black 70%,
+                    transparent 70%, transparent 75%,
+                    black 75%, black 100%);
+            -webkit-mask-image: linear-gradient(to bottom,
+                    black 0%, black 50%,
+                    transparent 50%, transparent 55%,
+                    black 55%, black 60%,
+                    transparent 60%, transparent 65%,
+                    black 65%, black 70%,
+                    transparent 70%, transparent 75%,
+                    black 75%, black 100%);
+        }
+
+        /* CRT Scanline Overlay */
+        .crt-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 5;
+            position: relative;
+        }
+
+        .glitch-title {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 7rem;
+            color: #fff;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 4px 4px 0px var(--neon-red), -4px -4px 0px var(--neon-blue);
+            animation: textFlicker 3s infinite alternate;
+        }
+
+        @keyframes textFlicker {
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 20px var(--neon-green);
+            }
+
+            5% {
+                opacity: 0.8;
+                text-shadow: none;
+            }
+
+            10% {
+                opacity: 1;
+                text-shadow: 0 0 20px var(--neon-green);
+            }
+
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 20px var(--neon-green);
+            }
+        }
+
+        /* Grid Layout */
+        .game-grid-section {
+            padding: 80px 5%;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .game-grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            max-width: 1600px;
+            margin: 0 auto;
+            perspective: 2000px;
+        }
+
+        /* 3D Card Styles (Ported from Homepage) */
+        .hyper-card {
+            position: relative;
+            width: 320px;
+            height: 480px;
+            background: #000;
+            border: 2px solid #333;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            transform: rotateY(-10deg) rotateX(5deg);
+            /* Subtle default skew */
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+        }
+
+        .hyper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hyper-card:hover {
+            transform: rotateY(0deg) rotateX(0deg) scale(1.1);
+            border-color: var(--card-color);
+            box-shadow: 0 0 40px var(--card-color), inset 0 0 20px var(--card-color);
+            z-index: 30;
+        }
+
+        .card-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: 0.4s;
+            opacity: 0.8;
+        }
+
+        .hyper-card:hover .card-bg-img {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+            z-index: 5;
+            transform: translateZ(20px);
+        }
+
+        .card-title {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            font-family: 'Rajdhani', sans-serif;
+            color: #ccc;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s;
+        }
+
+        .hyper-card:hover .card-stats {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Back Button */
+        .back-btn-wrapper {
+            text-align: center;
+            margin-top: 100px;
+            padding-bottom: 50px;
+        }
+
+        .code-btn {
+            display: inline-block;
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 1.5rem;
+            background: transparent;
+            color: var(--neon-green);
+            padding: 15px 40px;
+            text-transform: uppercase;
+            border: 1px solid var(--neon-green);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .code-btn:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-green);
+            letter-spacing: 4px;
+        }
+
+        /* Cyberpunk Button */
+        .profile-btn {
+            position: relative;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 1.4rem;
+            padding: 15px 40px;
+            margin-top: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            transition: 0.3s;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 20;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        .profile-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .profile-btn:hover::before {
+            left: 100%;
+        }
+
+        .profile-btn:hover {
+            background: rgba(0, 240, 255, 0.2);
+            text-shadow: 0 0 10px var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+            transform: scale(1.05);
+            border-color: #fff;
+            color: #fff;
+        }
+
+        .profile-btn i {
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .profile-btn:hover i {
+            transform: rotate(360deg);
+            color: var(--neon-green);
+        }
+
+        @media (max-width: 768px) {
+            .glitch-title {
+                font-size: 3rem;
+            }
+
+            .arcade-hero {
+                height: 40vh;
+            }
+
+            .hyper-card {
+                transform: none;
+                width: 100%;
+                max-width: 350px;
+                height: 400px;
+            }
+
+            .game-grid-container {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-deep-void">
+    <!-- Navbar -->
+    <nav class="navbar navbar-area navbar-area-1 navbar-border navbar-expand-lg">
+        <div class="container nav-container px-lg-0">
+            <div class="responsive-mobile-menu">
+                <button class="menu toggle-btn d-block d-lg-none" data-target="#xdyat" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="icon-left"></span><span class="icon-right"></span>
+                </button>
+            </div>
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/img/favicon.png" alt="logo"
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                    <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="xdyat_main_menu">
+                <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../contact.html">Contact Us</a></li>
+                    <li><a class="active" href="index.html">Mini Games</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="arcade-hero">
+        <div class="retro-sun"></div>
+        <div class="crt-overlay"></div>
+        <div class="hero-content">
+            <h1 class="glitch-title">ARCADE NEXUS</h1>
+            <p style="color:#aaa; letter-spacing:5px; margin-top: -20px;">VEXIL LOGIC SYSTEM // V4.0</p>
+            <button class="profile-btn" onclick="ArcadeProfile.open()">
+                <i class="fa-solid fa-id-card"></i> ACCESS PILOT PROFILE
+            </button>
+        </div>
+    </section>
+
+    <!-- Game Grid -->
+    <section class="game-grid-section">
+        <div class="game-grid-container">
+
+            <!-- System Defense -->
+            <a href="system-defense/index.html" class="hyper-card" style="--card-color: #44f580;">
+                <div class="card-bg-img"
+                    style="background-image: url('../assets/img/arcade_thumbnails/system_defense.png');"></div>
+                <div class="card-content">
+                    <div class="card-title">System<br>Defense</div>
+                    <div class="card-stats">
+                        <span class="stat-badge">SHOOTER</span>
+                        <span class="stat-badge" style="color:#44f580">ONLINE</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Neon Snake -->
+            <a href="neon-snake/index.html" class="hyper-card"
+                style="--card-color: #ff003c; transform: translateY(30px) rotateY(10deg);">
+                <div class="card-bg-img"
+                    style="background-image: url('../assets/img/arcade_thumbnails/neon_snake.png');"></div>
+                <div class="card-content">
+                    <div class="card-title">Neon<br>Snake</div>
+                    <div class="card-stats">
+                        <span class="stat-badge">CLASSIC</span>
+                        <span class="stat-badge" style="color:#ff003c">V3.0</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Cyber Pong -->
+            <a href="cyber-pong/index.html" class="hyper-card" style="--card-color: #00f0ff;">
+                <div class="card-bg-img"
+                    style="background-image: url('../assets/img/arcade_thumbnails/cyber_pong.png');"></div>
+                <div class="card-content">
+                    <div class="card-title">Cyber<br>Pong</div>
+                    <div class="card-stats">
+                        <span class="stat-badge">SPORTS</span>
+                        <span class="stat-badge" style="color:#00f0ff">AI DUEL</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Cyber Breaker -->
+            <a href="cyber-breaker/index.html" class="hyper-card"
+                style="--card-color: #f0f; transform: translateY(30px) rotateY(-5deg);">
+                <div class="card-bg-img"
+                    style="background-image: url('../assets/img/arcade_thumbnails/cyber_breaker.png');"></div>
+                <div class="card-content">
+                    <div class="card-title">Cyber<br>Breaker</div>
+                    <div class="card-stats">
+                        <span class="stat-badge">ARCADE</span>
+                        <span class="stat-badge" style="color:#f0f">V3.0</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Void Runner -->
+            <a href="void-runner/index.html" class="hyper-card" style="--card-color: #ffff00;">
+                <div class="card-bg-img"
+                    style="background-image: url('../assets/img/arcade_thumbnails/void_runner.png');"></div>
+                <div class="card-content">
+                    <div class="card-title">Void<br>Runner</div>
+                    <div class="card-stats">
+                        <span class="stat-badge">RUNNER</span>
+                        <span class="stat-badge" style="color:#ffff00">INF</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="back-btn-wrapper">
+            <a href="../index.html" class="code-btn">
+                <i class="fa fa-arrow-left"></i> Return to Mainframe
+            </a>
+        </div>
+    </section>
+
+    <!-- footer area start -->
+    <footer class="footer-area footer-area-1 pd-top-110 mt--35"
+        style="background-image: url('../assets/img/footer/bg.png');">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="widget widget_about">
+                        <div class="thumb">
+                            <a href="../index.html">
+                                <img src="../assets/img/favicon.png" alt="logo"
+                                    style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                                <span class="site-logo-text"><span class="vexil">VEXIL</span><span
+                                        class="logic">LOGIC</span></span>
+                            </a>
+                        </div>
+                        <div class="details">
+                            <p class="mb-3">Mian Channu, Punjab, Pakistan <br>vexillogicgames@gmail.com</p>
+                            <ul class="social-media-icons list-unstyled d-flex gap-3 mb-3">
+                                <li><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://wa.me/923137736010" target="_blank" class="text-white"><i
+                                            class="fab fa-whatsapp"></i></a></li>
+                            </ul>
+                            <h5>System Status</h5>
+                            <p><strong><span class="color-base">ONLINE</span></strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 text-center text-md-end mt-4 mt-md-0">
+                    <div class="widget widget_nav_menu ps-xl-5">
+                        <h4 class="widget-title">Navigation</h4>
+                        <ul>
+                            <li><a href="../index.html">HOME</a></li>
+                            <li><a href="../about.html">ABOUT US</a></li>
+                            <li><a href="../contact.html">CONTACT</a></li>
+                            <li><a href="../privacy-policy.html">PRIVACY POLICY</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>© 2026 Vexil Logic Games.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer area end -->
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/fontawesome.min.js"></script>
+    <script src="../assets/js/magnific.min.js"></script>
+    <script src="../assets/js/nice-select.min.js"></script>
+    <script src="../assets/js/swiper.min.js"></script>
+    <script src="../assets/js/counter-up.min.js"></script>
+    <script src="../assets/js/waypoint.min.js"></script>
+    <script src="../assets/js/wow.min.js"></script>
+    <script src="../assets/js/SplitText.min.js"></script>
+    <script src="../assets/js/ScrollTrigger.min.js"></script>
+    <script src="../assets/js/gsap.min.js"></script>
+    <script src="../assets/js/lenis.min.js"></script>
+    <script src="../assets/js/app-loader.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/arcade-profile.js"></script>
+
+</body>
+
+</html>
