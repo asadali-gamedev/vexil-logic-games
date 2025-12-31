@@ -266,9 +266,16 @@
                         </div>
                         <div class="details">
                             <p class="mb-3">
-                                New York, USA <br>
+                                Mian Channu, Punjab, Pakistan <br>
                                 vexillogicgames@gmail.com
                             </p>
+                            <ul class="social-media-icons list-unstyled d-flex gap-3 mb-3">
+                                <li><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://wa.me/923137736010" target="_blank" class="text-white"><i
+                                            class="fab fa-whatsapp"></i></a></li>
+                            </ul>
                             <h5>System Status</h5>
                             <p><strong><span class="color-base">ONLINE</span></strong></p>
                         </div>
@@ -323,12 +330,12 @@
         document.addEventListener("DOMContentLoaded", () => {
             gsap.registerPlugin(ScrollTrigger);
 
-            // 1. Hero Boot Sequence
+            // 1. Hero Boot Sequence (Optimized)
             const bootTl = gsap.timeline();
-            bootTl.to('#boot-text', { text: "Protocol Verified...", duration: 2, ease: "none", delay: 0.5 })
-                .to('.big-glitch-text', { scale: 1.1, duration: 0.1, yoyo: true, repeat: 5 })
-                .from('.big-glitch-text', { opacity: 0, duration: 0.5 }, "-=0.5")
-                .from('.hero-glitch-container p:last-child', { y: 20, opacity: 0, duration: 0.8 });
+            bootTl.to('#boot-text', { text: "Protocol Verified...", duration: 0.8, ease: "none", delay: 0.2 })
+                .to('.big-glitch-text', { scale: 1.1, duration: 0.05, yoyo: true, repeat: 3 })
+                .from('.big-glitch-text', { opacity: 0, duration: 0.3 }, "-=0.2")
+                .from('.hero-glitch-container p:last-child', { y: 20, opacity: 0, duration: 0.5 });
 
             // 2. Timeline Progress Bar
             gsap.to('.timeline-progress', {
