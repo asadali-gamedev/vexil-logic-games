@@ -17,6 +17,16 @@
     <meta property="og:title" content="Game Details - Vexil Logic Games">
     <meta property="og:description"
         content="Discover our latest mobile games. Play immersive hyper-casual and arcade titles on Android & iOS.">
+    <meta property="og:image" content="https://vexillogic.com/assets/img/hero/hero-bg.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vexillogic.com/game-details.html">
+    <meta property="twitter:title" content="Game Details - Vexil Logic Games">
+    <meta property="twitter:description"
+        content="Discover our latest mobile games. Play immersive hyper-casual and arcade titles on Android & iOS.">
+    <meta property="twitter:image" content="https://vexillogic.com/assets/img/hero/hero-bg.png">
+
     <link rel=icon href="assets/img/favicon.png" sizes="20x20" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
 
@@ -141,27 +151,46 @@
         }
 
         .btn-playstore {
-            background: var(--main-color-one);
-            color: var(--color-back);
+            background: linear-gradient(90deg, #44f580, #1c1c24);
+            color: #000;
             font-weight: 900;
             padding: 20px 45px;
-            border-radius: 5px;
+            border-radius: 50px;
+            /* Rounded pill shape */
             display: inline-flex;
             align-items: center;
             gap: 15px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 10px 30px rgba(68, 245, 128, 0.3);
+            box-shadow: 0 0 20px rgba(68, 245, 128, 0.4);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid transparent;
+            border: 2px solid #44f580;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .btn-playstore::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transition: 0.5s;
+            z-index: -1;
         }
 
         .btn-playstore:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(68, 245, 128, 0.5);
-            background: transparent;
-            color: var(--main-color-one);
-            border-color: var(--main-color-one);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 50px rgba(68, 245, 128, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            color: #000;
+            background: #44f580;
+        }
+
+        .btn-playstore:hover::before {
+            left: 100%;
         }
 
         /* New animated description styles */
@@ -229,11 +258,60 @@
 
             .game-hero {
                 padding: 120px 0 60px;
+                min-height: auto;
+                /* Remove fixed height constraint */
             }
 
             .game-icon-large {
-                width: 120px;
-                height: 120px;
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+            }
+
+            /* Text Sizing adjustments */
+            .title.move-line-3d {
+                font-size: 2.5rem !important;
+                line-height: 1.1;
+                margin-top: 10px;
+            }
+
+            #game-short-desc {
+                font-size: 16px !important;
+                line-height: 1.4;
+            }
+
+            /* Force Button Visibility on Mobile (Override GSAP) */
+            #game-play-link,
+            .btn-box {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+                display: inline-block !important;
+                margin-top: 20px !important;
+            }
+
+            /* Fix Mission Briefing Title Overflow */
+            .desc-container .title {
+                font-size: 1.8rem !important;
+                /* Smaller size for mobile */
+                word-wrap: break-word;
+                white-space: normal;
+            }
+
+            /* Disable complex animations that might hide content */
+            .move-line-3d,
+            .fade-slide,
+            .split_chars,
+            .glitch-text {
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+            }
+
+            .desc-container {
+                padding: 20px !important;
+                /* More breathing room */
             }
         }
     </style>
@@ -265,9 +343,11 @@
             <div class="collapse navbar-collapse" id="xdyat_main_menu">
                 <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="nav-right-part nav-right-part-desktop d-lg-inline-flex align-item-center">
@@ -300,12 +380,13 @@
                         </h1>
                         <!-- Added text-readable class for visibility -->
                         <div class="text-readable">
-                            <p class="fade-slide bottom text-white mb-4 pe-lg-5 m-0" id="game-short-desc"
+                            <p class="text-white mb-4 pe-lg-5 m-0" id="game-short-desc"
                                 style="font-size: 18px; max-width: 800px; font-weight: 500;">
                                 Detailed description...
                             </p>
                         </div>
-                        <div class="btn-box fade-slide bottom mt-4" data-delay="0.4">
+                        <div class="btn-box mt-4"
+                            style="opacity: 1 !important; visibility: visible !important; position: relative; z-index: 999;">
                             <a id="game-play-link" href="#" target="_blank" class="btn-playstore">
                                 <i class="fab fa-google-play"></i> GET IT ON GOOGLE PLAY
                             </a>
@@ -550,7 +631,7 @@
                     "id": 1,
                     "name": "Fruit Merge: Watermelon Game",
                     "icon": "https://play-lh.googleusercontent.com/uGxRufJolsYYceWZ6Zdu-INEMxSk3aVktMkb3I1azKyfmj17cMWPb1R1MR8TNjTAbx4VSss-OAVYhs1gcseiUg=w240-h480-rw",
-                    "thumbnail": "https://lh3.googleusercontent.com/MnBC8QOWn76kZjdpgmjTH3bXTbb36XsH8yQb1Djt5NxVirLczbtN8vvgm9etPPPrZvw5KDq4knnxOBHsyU-kmw",
+                    "thumbnail": "assets/img/feature/fruit-merge-feature.png",
                     "screenshots": [
                         "https://play-lh.googleusercontent.com/0jeqU5r0ANxFUbFHZqAszNIP_l-2ZKyGdzbXkuakuzWQd9DldSpBiG6DCyzp0FQmv45sYeM-FIPoXxEPrjbJFA8=w526-h296-rw",
                         "https://play-lh.googleusercontent.com/OXqrZurfr5t56Jcw7asBT5HKCVLJoOBu6mQiX4vNBXrGaNmEgbRxlpQy7KCTmxib6DKdqdhXJZynqh0TFgLBYQ=w526-h296-rw",
@@ -581,6 +662,54 @@
                     "orientation": "landscape",
                     "description": "Become the ultimate city cargo truck driver!\n\nCity Cargo Truck Parking Sim – Real Truck Game brings you a realistic truck driving & parking simulator full of cargo missions, precision challenges, and urban environments.\n\n🚚 Realistic Vehicles & Physics\nDrive semi-trucks, box trucks, long trailers, vans, and forklifts. Every vehicle feels different — weight, suspension, manual/automatic gear shifts, brake dynamics. Tweak control styles like tilt, buttons, or wheel mode. Feel the roar of engines and squeal of brakes.\n\n🎯 Cargo Delivery Missions & Parking Challenges\nTransport loads: pallets, containers, barrels, tools across city zones. Face timed deliveries, route planning, and multi-stop missions. Reverse into tight docks, avoid collisions, park within narrow lines. Special forklift tasks let you load/unload cargo manually.\n\n🌆 Explore a Full 3D City World\nNavigate downtown roads, industrial areas, ports, and warehouse districts. Dynamic day/night cycle, rain, fog & weather effects influence driving. AI traffic, pedestrians, roadworks bring realism to your simulator.\n\n🔧 Customisation & Progression\nUnlock new trucks, upgrade parts, paint your rig, choose wheels and exhausts. Select your camera view (interior, exterior, top-down). Free drive mode lets you experiment, find shortcuts or practice parking.\n\n💡 Why You’ll Love This Truck Game\n• Focused on **city driving & parking** — no off-road distractions\n• Fully playable offline — fits your schedule\n• Replay missions, earn 3 stars, improve your skills\n• Free-to-play with optional cosmetic packs — not pay-to-win\n\nDownload City Cargo Truck Parking Sim – Real Truck Game now and master urban deliveries, park like a pro, tackle weather and tight spots, become the top cargo transporter!",
                     "url": "https://play.google.com/store/apps/details?id=com.vexillogic.citycargotruck.simulator"
+                },
+                {
+                    "id": 3,
+                    "name": "Cyber Grid: Strategy RTS",
+                    "icon": "assets/img/icon/cyber_grid_icon.png",
+                    "thumbnail": "assets/img/feature/cyber_grid.png",
+                    "screenshots": [
+                        "assets/img/feature/cyber_grid.png",
+                        "assets/img/feature/5.png",
+                        "assets/img/feature/7.png"
+                    ],
+                    "rating": "4.7",
+                    "category": "Strategy",
+                    "orientation": "landscape",
+                    "description": "Dominate the digital frontier in Cyber Grid. \n\nA real-time strategy game where you control the flow of data across a neon-soaked network. Build defenses, deploy virus countermeasures, and hack into enemy nodes to expand your territory.\n\nFeatures:\n- Procedural Campaign\n- PvP Ranked Modes\n- Deep Tech Tree",
+                    "url": "https://play.google.com/store/apps/details?id=com.vexillogic.cybergrid"
+                },
+                {
+                    "id": 4,
+                    "name": "Neon Racer: Velocity",
+                    "icon": "assets/img/icon/neon_racer_icon.png",
+                    "thumbnail": "assets/img/feature/neon_racer.png",
+                    "screenshots": [
+                        "assets/img/feature/neon_racer.png",
+                        "assets/img/feature/6.png",
+                        "assets/img/feature/8.png"
+                    ],
+                    "rating": "4.9",
+                    "category": "Action",
+                    "orientation": "portrait",
+                    "description": "Experience speed at the speed of light.\n\nNeon Racer puts you in the cockpit of a futuristic hover-bike. Dodge obstacles, collect energy cores, and break the sound barrier in this high-octane endless runner.\n\nFeatures:\n- Syntax-Wave Soundtrack\n- Global Leaderboards\n- Customizable Bikes",
+                    "url": "https://play.google.com/store/apps/details?id=com.vexillogic.neonracer"
+                },
+                {
+                    "id": 5,
+                    "name": "System Core: Sim",
+                    "icon": "assets/img/icon/system_core_icon.png",
+                    "thumbnail": "assets/img/feature/system_core.png",
+                    "screenshots": [
+                        "assets/img/feature/system_core.png",
+                        "assets/img/feature/5.png",
+                        "assets/img/feature/6.png"
+                    ],
+                    "rating": "4.6",
+                    "category": "Simulation",
+                    "orientation": "landscape",
+                    "description": "Manage the ultimate CPU.\n\nSystem Core is a management simulation where you act as the kernel of a supercomputer. Allocate resources, cool down overheated cores, and prevent system crashes while running intense applications.\n\nFeatures:\n- Realistic Hardware Simulation\n- Overclocking Mechanics\n- Virus Outbreak Events",
+                    "url": "https://play.google.com/store/apps/details?id=com.vexillogic.systemcore"
                 }
             ];
 
@@ -600,6 +729,19 @@
             }
             document.getElementById('game-play-link').href = game.url;
             document.getElementById('game-hero').style.backgroundImage = `url('${game.thumbnail}')`;
+
+            // Dynamic Button Logic
+            const playLinkBtn = document.getElementById('game-play-link');
+            if (game.category.toLowerCase().includes('web')) {
+                playLinkBtn.innerHTML = '<i class="fas fa-globe"></i> PLAY ON WEB';
+                playLinkBtn.classList.remove('btn-playstore');
+                playLinkBtn.classList.add('btn-main'); // Use generic main button style or keep customized
+                playLinkBtn.style.background = 'var(--main-color-one)';
+                playLinkBtn.style.color = '#000';
+            } else {
+                playLinkBtn.innerHTML = '<i class="fab fa-google-play"></i> GET IT ON GOOGLE PLAY';
+                playLinkBtn.classList.add('btn-playstore');
+            }
 
             const sliderSection = document.getElementById('screenshot-slider-section');
             sliderSection.className = 'screenshot-slider ' + (game.orientation === 'portrait' ? 'screenshot-portrait' : 'screenshot-landscape');
@@ -636,7 +778,7 @@
 
             tl.from('#game-icon', { scale: 0, rotate: -45, opacity: 0, duration: 1.2, ease: 'expo.out' })
                 .from('#game-title', { x: 100, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.8')
-                .from('#game-category, #game-short-desc, .btn-playstore', { y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, '-=0.5');
+                .from('#game-category, #game-short-desc, #game-play-link', { y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, '-=0.5');
 
             // --- HACKER SCRAMBLE EFFECT ---
             const fullDesc = game.description;

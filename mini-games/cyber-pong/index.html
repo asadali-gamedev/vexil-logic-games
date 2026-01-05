@@ -74,7 +74,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 10;
+            z-index: 2000;
         }
 
         .header-bar {
@@ -144,6 +144,7 @@
             font-family: 'Science Gothic', sans-serif;
             font-size: 3.5rem;
             background: linear-gradient(to right, var(--neon-blue), #fff);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
@@ -406,11 +407,11 @@
 
             // Player
             ctx.shadowColor = '#44f580'; ctx.fillStyle = '#44f580';
-            ctx.beginPath(); ctx.roundRect(30, playerY, paddleW, paddleH, 4); ctx.fill();
+            ctx.beginPath(); ctx.rect(30, playerY, paddleW, paddleH); ctx.fill();
 
             // AI
             ctx.shadowColor = '#ff003c'; ctx.fillStyle = '#ff003c';
-            ctx.beginPath(); ctx.roundRect(width - 30 - paddleW, aiY, paddleW, paddleH, 4); ctx.fill();
+            ctx.beginPath(); ctx.rect(width - 30 - paddleW, aiY, paddleW, paddleH); ctx.fill();
 
             // Ball (With Trail)
             ctx.shadowColor = '#00f0ff'; ctx.fillStyle = '#fff';
@@ -435,10 +436,12 @@
                 gameActive = false;
 
                 // Profile Report
-                if (pScore > aiScore) {
-                    ArcadeProfile.reportGame('cyber-pong', pScore * 100);
-                } else {
-                    ArcadeProfile.reportGame('cyber-pong', pScore * 10);
+                if (window.ArcadeProfile) {
+                    if (pScore > aiScore) {
+                        ArcadeProfile.reportGame('cyber-pong', pScore * 100);
+                    } else {
+                        ArcadeProfile.reportGame('cyber-pong', pScore * 10);
+                    }
                 }
 
                 let win = pScore > aiScore;
@@ -456,11 +459,14 @@
             playerY = Math.max(0, Math.min(height - paddleH, playerY));
         });
 
-        window.addEventListener('touchmove', e => {
-            e.preventDefault(); // Prevent scrolling
+        function handleTouch(e) {
+            e.preventDefault();
             playerY = e.touches[0].clientY - paddleH / 2;
             playerY = Math.max(0, Math.min(height - paddleH, playerY));
-        }, { passive: false });
+        }
+
+        window.addEventListener('touchmove', handleTouch, { passive: false });
+        window.addEventListener('touchstart', handleTouch, { passive: false });
 
     </script>
     <script src="../../assets/js/arcade-profile.js"></script>

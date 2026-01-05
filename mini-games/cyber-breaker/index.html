@@ -68,7 +68,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 10;
+            z-index: 2000;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -390,14 +390,14 @@
 
             if (balls.length === 0 && gameActive) {
                 gameActive = false;
-                ArcadeProfile.reportGame('cyber-breaker', score);
+                if (window.ArcadeProfile) ArcadeProfile.reportGame('cyber-breaker', score);
                 document.getElementById('finalScore').innerText = score;
                 document.getElementById('gameOverScreen').classList.remove('hidden');
             }
 
             if (bricks.filter(b => b.status === 1).length === 0) {
                 gameActive = false;
-                ArcadeProfile.reportGame('cyber-breaker', score); // Report progress on level clear
+                if (window.ArcadeProfile) ArcadeProfile.reportGame('cyber-breaker', score); // Report progress on level clear
                 document.getElementById('winScreen').classList.remove('hidden');
             }
 
@@ -423,7 +423,7 @@
             bricks.forEach(b => {
                 if (b.status === 1) {
                     ctx.shadowBlur = 10; ctx.shadowColor = b.color; ctx.fillStyle = b.color;
-                    ctx.beginPath(); ctx.roundRect(b.x, b.y, b.w, b.h, 4); ctx.fill();
+                    ctx.beginPath(); ctx.rect(b.x, b.y, b.w, b.h); ctx.fill();
                     if (b.type === 'multi') {
                         ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(b.x + b.w / 2, b.y + b.h / 2, 4, 0, Math.PI * 2); ctx.fill();
                     }
@@ -458,9 +458,20 @@
         }
 
         window.addEventListener('mousemove', e => { if (gameActive) paddle.x = e.clientX - paddle.w / 2; });
+
+        // Touch Support
+        window.addEventListener('touchmove', e => {
+            if (gameActive) {
+                e.preventDefault();
+                paddle.x = e.touches[0].clientX - paddle.w / 2;
+            }
+        }, { passive: false });
+
         window.addEventListener('click', launchBall);
+        window.addEventListener('touchstart', launchBall); // Launch on touch too
         window.addEventListener('resize', resize);
     </script>
+    <script src="../../assets/js/arcade-profile.js"></script>
 </body>
 
 </html>

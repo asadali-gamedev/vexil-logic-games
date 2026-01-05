@@ -340,24 +340,55 @@
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 4rem;
+                font-size: 3.5rem;
+                /* Reduced from 4rem */
+            }
+
+            .center-message h1 {
+                font-size: 4rem !important;
+                /* Specific for 404/Critical Failure titles */
+                line-height: 1;
             }
 
             .center-message {
-                padding: 30px;
-                width: 85%;
+                padding: 20px;
+                width: 90%;
+            }
+
+            p {
+                font-size: 1rem;
+                margin-bottom: 20px;
             }
 
             .btn-green {
-                font-size: 1.2rem;
+                font-size: 1rem;
+                padding: 15px 0;
+            }
+
+            .btn-return {
+                font-size: 0.9rem;
             }
 
             .brand-header {
-                padding: 15px;
+                padding: 10px;
             }
 
             .brand-logo {
-                font-size: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .brand-logo img {
+                height: 30px;
+            }
+
+            .hud-top {
+                top: 60px;
+                /* Move below header */
+                width: 95%;
+            }
+
+            .score-hud {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -408,7 +439,7 @@
 
         <!-- Game Over Screen -->
         <div class="center-message" id="gameOverScreen">
-            <h1 style="font-size: 5rem;">CRITICAL<br>FAILURE</h1>
+            <h1>CRITICAL<br>FAILURE</h1>
             <p>System integrity lost.</p>
             <h2 id="finalScore" style="color:white; font-size: 2rem;">SCORE: 0</h2>
             <div class="actions">

@@ -411,22 +411,38 @@
 
         @media (max-width: 768px) {
             .glitch-title {
-                font-size: 3rem;
+                font-size: 10vw;
+                /* Fluid scaling */
+                word-break: break-word;
+                line-height: 1.1;
             }
 
             .arcade-hero {
                 height: 40vh;
             }
 
+            .game-grid-section {
+                padding: 40px 5%;
+            }
+
             .hyper-card {
-                transform: none;
+                transform: none !important;
+                /* Force override inline styles */
                 width: 100%;
-                max-width: 350px;
+                max-width: 300px;
+                /* Reduced to fit smaller phones */
                 height: 400px;
+                margin: 0 auto;
             }
 
             .game-grid-container {
                 gap: 30px;
+                display: block;
+                /* Stack vertically for sure */
+            }
+
+            .hyper-card {
+                margin-bottom: 30px;
             }
         }
     </style>
