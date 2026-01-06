@@ -293,7 +293,7 @@
             <div class="logo">
                 <a href="index.html">
                     <img src="assets/img/favicon.webp" alt="logo"
-                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;" loading="lazy">
                     <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
                 </a>
             </div>
@@ -319,7 +319,7 @@
             <div class="game-hero-content text-center text-lg-start">
                 <div class="row align-items-center">
                     <div class="col-lg-3 text-center">
-                        <img id="game-icon" src="" alt="Game Icon" class="game-icon-large">
+                        <img id="game-icon" src="" alt="Game Icon" class="game-icon-large" loading="lazy">
                     </div>
                     <div class="col-lg-9">
                         <h6 class="sub-title split_chars text-white mb-2" id="game-category">CATEGORY</h6>
@@ -419,7 +419,7 @@
                         <div class="thumb">
                             <a href="index.html">
                                 <img src="assets/img/favicon.webp" alt="logo"
-                                    style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                                    style="height: 50px; margin-right: 5px; vertical-align: middle;" loading="lazy">
                                 <span class="site-logo-text"><span class="vexil">VEXIL</span><span
                                         class="logic">LOGIC</span></span>
                             </a>
@@ -732,7 +732,7 @@
             game.screenshots.forEach(src => {
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
-                slide.innerHTML = `<img src="${src}" alt="screenshot">`;
+                slide.innerHTML = `<img src="${src}" alt="screenshot" loading="lazy">`;
                 screenshotContainer.appendChild(slide);
             });
 
