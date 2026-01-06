@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Terms of Service - Vexil Logic Games</title>
+    <meta name="description"
+        content="Terms of Service for Vexil Logic Games. Usage protocols, disclaimers, and user agreements for our mobile gaming ecosystem.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vexillogic.com/terms.html">
+    <link rel=icon href="assets/img/favicon.webp" sizes="20x20" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="assets/css/magnific.min.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        :root {
+            --security-red: #ff003c;
+            --security-bg: #0d1117;
+            --panel-bg: rgba(13, 17, 23, 0.95);
+        }
+
+        body {
+            background-color: var(--security-bg);
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e6ed;
+        }
+
+        /* Matrix/Grid Background */
+        .bg-matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(255, 0, 60, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 60, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .terms-hero {
+            padding: 160px 0 80px;
+            position: relative;
+            text-align: center;
+        }
+
+        .terms-hero h1 {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: clamp(40px, 8vw, 80px);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 0, 60, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            border: 1px solid var(--security-red);
+            color: var(--security-red);
+            padding: 5px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(255, 0, 60, 0.1);
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
+        }
+
+        /* Data Nodes (Sections) */
+        .data-node {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            border-left: 4px solid var(--security-red);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .data-node:hover {
+            border-color: var(--security-red);
+            box-shadow: 0 0 30px rgba(255, 0, 60, 0.1);
+            transform: translateX(10px);
+        }
+
+        .node-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .node-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid var(--security-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: var(--security-red);
+            font-size: 20px;
+        }
+
+        .node-title {
+            font-family: 'Science Gothic', sans-serif;
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .node-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #b0b0b0;
+        }
+
+        .node-content strong {
+            color: #fff;
+        }
+
+        .node-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .node-content ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        .node-content ul li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--security-red);
+            font-family: monospace;
+        }
+
+        /* Sidebar Navigation */
+        .policy-nav-wrap {
+            position: sticky;
+            top: 120px;
+        }
+
+        .policy-nav {
+            list-style: none;
+            padding: 0;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .policy-nav li {
+            margin-bottom: 0;
+        }
+
+        .policy-nav a {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .policy-nav a:hover,
+        .policy-nav a.active {
+            color: var(--security-red);
+            background: linear-gradient(90deg, rgba(255, 0, 60, 0.05), transparent);
+            padding-left: 25px;
+        }
+
+        .policy-nav a.active::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--security-red);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Grid -->
+    <div class="bg-matrix"></div>
+
+    <!-- cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- navbar start -->
+    <nav class="navbar navbar-area navbar-area-2 navbar-border navbar-expand-lg">
+        <div class="container nav-container px-lg-0">
+            <div class="responsive-mobile-menu">
+                <button class="menu toggle-btn d-block d-lg-none" data-target="#xdyat" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="icon-left"></span>
+                    <span class="icon-right"></span>
+                </button>
+            </div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/img/favicon.webp" alt="logo"
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                    <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="xdyat_main_menu">
+                <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="tools.html">Tools</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+
+    <!-- Header -->
+    <section class="terms-hero">
+        <div class="container">
+            <div class="status-badge">
+                <i class="fa fa-gavel me-2"></i> PROTOCOL: BINDING AGREEMENT
+            </div>
+            <h1 class="move-line-3d">Terms of Service</h1>
+            <p class="text-white-50" style="max-width: 600px; margin: 0 auto;">
+                Governing rules for the Vexil Logic digital ecosystem. By accessing our services, you align with these
+                protocols.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="pd-bottom-120">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Nav -->
+                <div class="col-lg-3 d-none d-lg-block">
+                    <div class="policy-nav-wrap">
+                        <ul class="policy-nav">
+                            <li><a href="#intro" class="active">01. Terms Acceptance</a></li>
+                            <li><a href="#license">02. Usage License</a></li>
+                            <li><a href="#prohibited">03. Restrictions</a></li>
+                            <li><a href="#virtual">04. Virtual Items</a></li>
+                            <li><a href="#content">05. User Content</a></li>
+                            <li><a href="#disclaimer">06. Disclaimer</a></li>
+                            <li><a href="#governing">07. Jurisdiction</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="col-lg-9">
+
+                    <!-- 1. Introduction -->
+                    <div id="intro" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-file-contract"></i></div>
+                            <h3 class="node-title">1. Terms Acceptance</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>By downloading, installing, or playing games developed by <strong>Vexil Logic
+                                    Games</strong>, you agree to be bound by these Terms of Service. If you do not agree
+                                to any part of these terms, you must terminate access to our services immediately.</p>
+                            <p>We reserve the right to modify these protocols at any time. Continued use signifies
+                                acceptance of updated terms.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. License -->
+                    <div id="license" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-key"></i></div>
+                            <h3 class="node-title">2. Usage License</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>Vexil Logic grants you a revocable, non-exclusive, non-transferable, limited license to
+                                download, install, and use the Application strictly in accordance with:</p>
+                            <ul>
+                                <li>Personal, non-commercial use only.</li>
+                                <li>Strict adherence to platform (Google Play/App Store) rules.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3. Restrictions -->
+                    <div id="prohibited" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-ban"></i></div>
+                            <h3 class="node-title">3. Protocol Restrictions</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>You agree NOT to:</p>
+                            <ul>
+                                <li>Reverse engineer, decompile, or attempt to derive source code.</li>
+                                <li>Use cheats, automation software (bots), hacks, or mods.</li>
+                                <li>Harass, threaten, or defame other operatives (users).</li>
+                                <li>Exploit bugs for unfair advantage.</li>
+                            </ul>
+                            <p>Violation results in an immediate <strong>PERMANENT BAN</strong> from all Vexil Logic
+                                services.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. Virtual Items -->
+                    <div id="virtual" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-gem"></i></div>
+                            <h3 class="node-title">4. Virtual Currency</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>Our games may include virtual currency (Coins, Gems) or items.</p>
+                            <ul>
+                                <li>These have <strong>NO real-world value</strong>.</li>
+                                <li>They cannot be exchanged for cash or legal tender.</li>
+                                <li>We do not offer refunds for virtual items used effectively in-game.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 5. Content -->
+                    <div id="content" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-user-edit"></i></div>
+                            <h3 class="node-title">5. User Generated Content</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>If you submit content (ideas, chat logs, custom levels):</p>
+                            <p>You grant Vexil Logic a worldwide, royalty-free, perpetual license to use, reproduce,
+                                modify, and display such content in connection with the Service.</p>
+                        </div>
+                    </div>
+
+                    <!-- 6. Disclaimer -->
+                    <div id="disclaimer" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-exclamation-triangle"></i></div>
+                            <h3 class="node-title">6. System Disclaimer</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE". Vexil Logic disclaims all warranties,
+                                express or implied, including merchantability and fitness for a particular purpose.</p>
+                            <p>We do not guarantee that the server will be error-free or uninterrupted.</p>
+                        </div>
+                    </div>
+
+                    <!-- 7. Jurisdiction -->
+                    <div id="governing" class="data-node">
+                        <div class="node-header">
+                            <div class="node-icon"><i class="fa fa-balance-scale"></i></div>
+                            <h3 class="node-title">7. Jurisdiction</h3>
+                        </div>
+                        <div class="node-content">
+                            <p>These terms are governed by the laws of <strong>Pakistan</strong>. Any disputes shall be
+                                resolved in the courts of Punjab, Pakistan.</p>
+                            <p><strong>Contact:</strong> vexillogicgames@gmail.com</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer area start -->
+    <footer class="footer-area footer-area-1 pd-top-110 mt--35"
+        style="background-image: url('./assets/img/footer/bg.webp');">
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: Logo & Info -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="widget widget_about">
+                        <div class="thumb">
+                            <a href="index.html">
+                                <img src="assets/img/favicon.webp" alt="logo"
+                                    style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                                <span class="site-logo-text"><span class="vexil">VEXIL</span><span
+                                        class="logic">LOGIC</span></span>
+                            </a>
+                        </div>
+                        <div class="details">
+                            <p class="mb-3">
+                                Mian Channu, Punjab, Pakistan <br>
+                                vexillogicgames@gmail.com
+                            </p>
+                            <ul class="social-media-icons list-unstyled d-flex gap-3 mb-3">
+                                <li><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://wa.me/923137736010" target="_blank" class="text-white"><i
+                                            class="fab fa-whatsapp"></i></a></li>
+                            </ul>
+                            <h5>System Status</h5>
+                            <p><strong><span class="color-base">ONLINE</span></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="col-lg-6 col-md-6 text-center text-md-end mt-4 mt-md-0">
+                    <div class="widget widget_nav_menu ps-xl-5">
+                        <h4 class="widget-title">Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">HOME</a></li>
+                            <li><a href="about.html">ABOUT</a></li>
+                            <li><a href="contact.html">CONTACT</a></li>
+                            <li><a href="privacy-policy.html">PRIVACY</a></li>
+                            <li><a href="terms.html">TERMS</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>© 2026 Vexil Logic Games.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- all plugins here -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fontawesome.min.js"></script>
+    <script src="assets/js/magnific.min.js"></script>
+    <script src="assets/js/nice-select.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/counter-up.min.js"></script>
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/SplitText.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/lenis.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+        // Use consistent animation scripts
+        gsap.registerPlugin(ScrollTrigger);
+
+        const sections = document.querySelectorAll(".data-node");
+        const navLinks = document.querySelectorAll(".policy-nav a");
+
+        // Reveal Animation
+        sections.forEach(section => {
+            gsap.set(section, { autoAlpha: 0, x: -30 });
+            gsap.to(section, {
+                duration: 0.8,
+                autoAlpha: 1,
+                x: 0,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Nav Highlight
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => setActiveNav(section.id),
+                onEnterBack: () => setActiveNav(section.id)
+            });
+        });
+
+        function setActiveNav(id) {
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === `#${id}`) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -2,8 +2,8 @@
     {
         "id": 1,
         "name": "Fruit Merge: Watermelon Game",
-        "icon": "assets/img/feature/1.png",
-        "thumbnail": "assets/img/feature/5.png",
+        "icon": "assets/img/feature/1.webp",
+        "thumbnail": "assets/img/feature/5.webp",
         "description": "Engaging puzzle game where you merge fruits to create a giant watermelon!",
         "rating": 4.8,
         "url": "https://play.google.com/store/apps/details?id=com.vexil.fruit.merge"
@@ -11,8 +11,8 @@
     {
         "id": 2,
         "name": "City Cargo Truck Parking Sim",
-        "icon": "assets/img/feature/2.png",
-        "thumbnail": "assets/img/feature/6.png",
+        "icon": "assets/img/feature/2.webp",
+        "thumbnail": "assets/img/feature/6.webp",
         "description": "Test your driving skills in this realistic truck parking simulator.",
         "rating": 4.5,
         "url": "https://play.google.com/store/apps/details?id=com.vexil.truck.parking"
