@@ -46,11 +46,12 @@
 
         body {
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: var(--deep-void);
             font-family: 'Rajdhani', sans-serif;
             color: #fff;
-            touch-action: none;
+            min-height: 100vh;
+            touch-action: pan-y;
             user-select: none;
         }
 
@@ -205,36 +206,59 @@
 </head>
 
 <body>
-    <div class="scanlines"></div>
-    <div class="powerup-text" id="powerupText">MULTI-BALL ACTIVATED</div>
-    <canvas id="gameCanvas"></canvas>
+    <div style="position: relative; height: 100vh; width: 100%; overflow: hidden;">
+        <div class="scanlines"></div>
+        <div class="powerup-text" id="powerupText">MULTI-BALL ACTIVATED</div>
+        <canvas id="gameCanvas"></canvas>
 
-    <div class="ui-layer">
-        <div class="header-bar">
-            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
-            <div class="score-box">
-                <div class="score" id="score">0</div>
-                <div class="level">SECTOR <span id="level">1</span></div>
+        <div class="ui-layer">
+            <div class="header-bar">
+                <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
+                <div class="score-box">
+                    <div class="score" id="score">0</div>
+                    <div class="level">SECTOR <span id="level">1</span></div>
+                </div>
+            </div>
+
+            <div id="startScreen" class="screen">
+                <h1>CYBER<br>BREAKER</h1>
+                <p style="color:#ccc; font-size: 1.2rem;">HYPER EDITION V4.0</p>
+                <button class="btn" onclick="startGame()">INITIATE BREACH</button>
+            </div>
+            <div id="gameOverScreen" class="screen hidden">
+                <h1 style="color:var(--neon-red);">BREACH<br>FAILED</h1>
+                <p>FINAL SCORE: <span id="finalScore">0</span></p>
+                <button class="btn" style="border-color:var(--neon-red); color:var(--neon-red);"
+                    onclick="startGame()">RETRY</button>
+            </div>
+            <div id="winScreen" class="screen hidden">
+                <h1 style="color:var(--neon-blue);">SYSTEM<br>CLEARED</h1>
+                <button class="btn" style="border-color:var(--neon-blue); color:var(--neon-blue);"
+                    onclick="nextLevel()">NEXT SECTOR</button>
             </div>
         </div>
 
-        <div id="startScreen" class="screen">
-            <h1>CYBER<br>BREAKER</h1>
-            <p style="color:#ccc; font-size: 1.2rem;">HYPER EDITION V4.0</p>
-            <button class="btn" onclick="startGame()">INITIATE BREACH</button>
-        </div>
-        <div id="gameOverScreen" class="screen hidden">
-            <h1 style="color:var(--neon-red);">BREACH<br>FAILED</h1>
-            <p>FINAL SCORE: <span id="finalScore">0</span></p>
-            <button class="btn" style="border-color:var(--neon-red); color:var(--neon-red);"
-                onclick="startGame()">RETRY</button>
-        </div>
-        <div id="winScreen" class="screen hidden">
-            <h1 style="color:var(--neon-blue);">SYSTEM<br>CLEARED</h1>
-            <button class="btn" style="border-color:var(--neon-blue); color:var(--neon-blue);"
-                onclick="nextLevel()">NEXT SECTOR</button>
-        </div>
     </div>
+
+    <!-- SEO Content Section -->
+    <section
+        style="background: #020205; padding: 80px 20px; border-top: 2px solid #d300ff; position: relative; z-index: 20;">
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #ccc;">
+            <h2 style="font-family: 'Science Gothic'; color: #d300ff; font-size: 2.5rem; margin-bottom: 30px;">
+                BREAK THE FIREWALL</h2>
+            <p>
+                <strong>Cyber Breaker</strong> is the ultimate test of trajectory calculation. Smash through layers of
+                encrypted blocks using your kinetic orb. Collect power-ups to unleash chaos and clear the sector.
+            </p>
+            <h3 style="color: #fff; margin-top: 30px; font-family: 'Rajdhani';">POWER-UPS</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; border-left: 2px solid #00f0ff; padding-left: 15px;">
+                    <strong style="color: #00f0ff;">MULTI-BALL:</strong> Triples your offensive capabilities for maximum
+                    destruction.
+                </li>
+            </ul>
+        </div>
+    </section>
 
     <script>
         const canvas = document.getElementById('gameCanvas');

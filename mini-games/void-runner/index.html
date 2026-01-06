@@ -46,11 +46,12 @@
 
         body {
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: var(--deep-void);
             font-family: 'Rajdhani', sans-serif;
             color: #fff;
-            touch-action: none;
+            min-height: 100vh;
+            touch-action: pan-y;
             user-select: none;
         }
 
@@ -198,31 +199,59 @@
 </head>
 
 <body>
-    <div class="scanlines"></div>
-    <div class="warp-overlay"></div>
-    <canvas id="gameCanvas"></canvas>
+    <div style="position: relative; height: 100vh; width: 100%; overflow: hidden;">
+        <div class="scanlines"></div>
+        <div class="warp-overlay"></div>
+        <canvas id="gameCanvas"></canvas>
 
-    <div class="ui-layer">
-        <div class="header-bar">
-            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
-            <div class="hud">
-                <div class="score" id="score">0000m</div>
-                <div class="coins"><i class="fa-solid fa-bolt"></i> <span id="coins">0</span></div>
+        <div class="ui-layer">
+            <div class="header-bar">
+                <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
+                <div class="hud">
+                    <div class="score" id="score">0000m</div>
+                    <div class="coins"><i class="fa-solid fa-bolt"></i> <span id="coins">0</span></div>
+                </div>
+            </div>
+
+            <div id="startScreen" class="screen">
+                <h1>VOID RUNNER</h1>
+                <p style="color:#ccc; font-size: 1.2rem;">HYPER EDITION V4.0</p>
+                <p style="margin-top:10px;">TAP TO JUMP | HOLD TO GLIDE</p>
+                <button class="btn" onclick="startGame()">INITIATE RUN</button>
+            </div>
+            <div id="gameOverScreen" class="screen hidden">
+                <h1 style="color:var(--neon-red);">SIGNAL LOST</h1>
+                <p>DISTANCE: <span id="finalScore">0</span>m</p>
+                <button class="btn" style="background:var(--neon-red); color:#fff;" onclick="startGame()">RETRY</button>
             </div>
         </div>
 
-        <div id="startScreen" class="screen">
-            <h1>VOID RUNNER</h1>
-            <p style="color:#ccc; font-size: 1.2rem;">HYPER EDITION V4.0</p>
-            <p style="margin-top:10px;">TAP TO JUMP | HOLD TO GLIDE</p>
-            <button class="btn" onclick="startGame()">INITIATE RUN</button>
-        </div>
-        <div id="gameOverScreen" class="screen hidden">
-            <h1 style="color:var(--neon-red);">SIGNAL LOST</h1>
-            <p>DISTANCE: <span id="finalScore">0</span>m</p>
-            <button class="btn" style="background:var(--neon-red); color:#fff;" onclick="startGame()">RETRY</button>
-        </div>
     </div>
+
+    <!-- SEO Content Section -->
+    <section
+        style="background: #020205; padding: 80px 20px; border-top: 2px solid #ffd700; position: relative; z-index: 20;">
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #ccc;">
+            <h2 style="font-family: 'Science Gothic'; color: #ffd700; font-size: 2.5rem; margin-bottom: 30px;">
+                RUN THE VOID</h2>
+            <p>
+                <strong>Void Runner</strong> sends you sprinting into the infinite abyss. Leap over chasms, glide
+                through the air, and collect energy orbs to keep your systems online. How far can you go before the
+                signal is lost?
+            </p>
+            <h3 style="color: #fff; margin-top: 30px; font-family: 'Rajdhani';">TRAVERSAL</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; border-left: 2px solid #00f0ff; padding-left: 15px;">
+                    <strong style="color: #00f0ff;">JUMP & GLIDE:</strong> Tap to jump. Hold in mid-air to activate your
+                    glide wings for extended distance.
+                </li>
+                <li style="margin-bottom: 10px; border-left: 2px solid #ffd700; padding-left: 15px;">
+                    <strong style="color: #ffd700;">ENERGY:</strong> Collect yellow orbs to boost your score and unlock
+                    achievements.
+                </li>
+            </ul>
+        </div>
+    </section>
 
     <script>
         const canvas = document.getElementById('gameCanvas');

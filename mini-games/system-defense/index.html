@@ -46,11 +46,12 @@
 
         body {
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: var(--deep-void);
             font-family: 'Rajdhani', sans-serif;
             color: #fff;
-            touch-action: none;
+            min-height: 100vh;
+            touch-action: pan-y;
             user-select: none;
         }
 
@@ -248,34 +249,63 @@
 </head>
 
 <body>
-    <div class="scanlines"></div>
-    <div class="damage-overlay" id="damageOverlay"></div>
-    <div class="powerup-text" id="powerupText">SYSTEM OVERDRIVE</div>
+    <div style="position: relative; height: 100vh; width: 100%; overflow: hidden;">
+        <div class="scanlines"></div>
+        <div class="damage-overlay" id="damageOverlay"></div>
+        <div class="powerup-text" id="powerupText">SYSTEM OVERDRIVE</div>
 
-    <canvas id="gameCanvas"></canvas>
+        <canvas id="gameCanvas"></canvas>
 
-    <div class="ui-layer">
-        <div class="brand-header">
-            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
-            <div class="hud">
-                <div class="score" id="score">0</div>
-                <div class="lives" id="lives">❤️❤️❤️</div>
+        <div class="ui-layer">
+            <div class="brand-header">
+                <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
+                <div class="hud">
+                    <div class="score" id="score">0</div>
+                    <div class="lives" id="lives">❤️❤️❤️</div>
+                </div>
+            </div>
+
+            <div id="startScreen" class="screen">
+                <h1>SYSTEM<br>DEFENSE</h1>
+                <p>HYPER EDITION V4.0</p>
+                <p style="font-size: 0.9rem; margin-top:10px;">MOUSE TO MOVE | CLICK TO EMP</p>
+                <button class="btn" onclick="startGame()">ENGAGE SYSTEMS</button>
+            </div>
+            <div id="gameOverScreen" class="screen hidden">
+                <h1 style="color:var(--neon-red);">CRITICAL<br>FAILURE</h1>
+                <p>THREATS NEUTRALIZED: <span id="finalScore">0</span></p>
+                <button class="btn" style="border-color:var(--neon-red); color:var(--neon-red)"
+                    onclick="startGame()">REBOOT
+                    SYSTEM</button>
             </div>
         </div>
 
-        <div id="startScreen" class="screen">
-            <h1>SYSTEM<br>DEFENSE</h1>
-            <p>HYPER EDITION V4.0</p>
-            <p style="font-size: 0.9rem; margin-top:10px;">MOUSE TO MOVE | CLICK TO EMP</p>
-            <button class="btn" onclick="startGame()">ENGAGE SYSTEMS</button>
-        </div>
-        <div id="gameOverScreen" class="screen hidden">
-            <h1 style="color:var(--neon-red);">CRITICAL<br>FAILURE</h1>
-            <p>THREATS NEUTRALIZED: <span id="finalScore">0</span></p>
-            <button class="btn" style="border-color:var(--neon-red); color:var(--neon-red)" onclick="startGame()">REBOOT
-                SYSTEM</button>
-        </div>
     </div>
+
+    <!-- SEO Content Section -->
+    <section
+        style="background: #020205; padding: 80px 20px; border-top: 2px solid var(--neon-red); position: relative; z-index: 20;">
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #ccc;">
+            <h2 style="font-family: 'Science Gothic'; color: var(--neon-red); font-size: 2.5rem; margin-bottom: 30px;">
+                DEFEND THE CORE</h2>
+            <p>
+                <strong>System Defense</strong> puts you in the cockpit of the Kernel Guardian. Your mission is to
+                intercept and eradicate incoming viral packets before they corrupt the mainframe. This classic space
+                shooter has been recompiled for the modern browser.
+            </p>
+            <h3 style="color: #fff; margin-top: 30px; font-family: 'Rajdhani';">HOSTILES IDENTIFIED</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; border-left: 2px solid var(--neon-red); padding-left: 15px;">
+                    <strong style="color: var(--neon-red);">BOMBERS:</strong> Heavy hex-ships that require sustained
+                    fire to destroy.
+                </li>
+                <li style="margin-bottom: 10px; border-left: 2px solid #d300ff; padding-left: 15px;">
+                    <strong style="color: #d300ff;">SEEKERS:</strong> Agile triangular units that lock onto your
+                    position.
+                </li>
+            </ul>
+        </div>
+    </section>
 
     <script>
         const canvas = document.getElementById('gameCanvas');

@@ -49,13 +49,14 @@
 
         body {
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            /* Allow vertical scroll */
             background-color: var(--deep-void);
             font-family: 'Rajdhani', sans-serif;
             color: #fff;
-            height: 100vh;
-            touch-action: none;
-            user-select: none;
+            min-height: 100vh;
+            touch-action: pan-y;
+            /* Allow vertical scroll touch */
         }
 
         canvas {
@@ -198,29 +199,65 @@
 </head>
 
 <body>
-    <div class="scanlines"></div>
-    <div class="ui-layer">
-        <div class="header-bar">
-            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
-            <div class="score-display">DATA: <span id="scoreEl">0</span></div>
-        </div>
+    <div style="position: relative; height: 100vh; width: 100%; overflow: hidden;">
+        <div class="scanlines"></div>
+        <div class="ui-layer">
+            <div class="header-bar">
+                <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> ARCADE NEXUS</a>
+                <div class="score-display">DATA: <span id="scoreEl">0</span></div>
+            </div>
 
-        <div id="startScreen" class="overlay-screen">
-            <h1>NEON SERPENT</h1>
-            <p style="color:#ccc; font-size:1.2rem;">HYPER EDITION V4.0</p>
-            <p style="margin-top:20px; color:#888;">CONSUME DATA CLUSTERS</p>
-            <button class="btn-play" onclick="startGame()">INITIALIZE</button>
-        </div>
+            <div id="startScreen" class="overlay-screen">
+                <h1>NEON SERPENT</h1>
+                <p style="color:#ccc; font-size:1.2rem;">HYPER EDITION V4.0</p>
+                <p style="margin-top:20px; color:#888;">CONSUME DATA CLUSTERS | SCROLL DOWN FOR INFO</p>
+                <button class="btn-play" onclick="startGame()">INITIALIZE</button>
+            </div>
 
-        <div id="gameOverScreen" class="overlay-screen hidden">
-            <h1 style="color: var(--neon-red);">SYSTEM CRASH</h1>
-            <p style="color:#ccc;">DATA UPLOADED: <span id="finalScore">0</span></p>
-            <button class="btn-play" style="color:var(--neon-red); border-color:var(--neon-red);"
-                onclick="startGame()">REBOOT</button>
+            <div id="gameOverScreen" class="overlay-screen hidden">
+                <h1 style="color: var(--neon-red);">SYSTEM CRASH</h1>
+                <p style="color:#ccc;">DATA UPLOADED: <span id="finalScore">0</span></p>
+                <button class="btn-play" style="color:var(--neon-red); border-color:var(--neon-red);"
+                    onclick="startGame()">REBOOT</button>
+            </div>
         </div>
+        <canvas id="gameCanvas"></canvas>
     </div>
 
-    <canvas id="gameCanvas"></canvas>
+    <!-- SEO Content Section -->
+    <section
+        style="background: #020205; padding: 80px 20px; border-top: 2px solid var(--neon-green); position: relative; z-index: 20;">
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #ccc;">
+            <h2
+                style="font-family: 'Science Gothic'; color: var(--neon-green); font-size: 2.5rem; margin-bottom: 30px;">
+                ABOUT THE SIMULATION</h2>
+            <p>
+                <strong>Neon Snake</strong> is a high-fidelity reimagining of the classic arcade reptile. In this V4.0
+                iteration, your objective is to navigate the infinite cyber-grid, consuming data clusters (nodes) to
+                increase your processing power and physical length.
+            </p>
+            <h3 style="color: #fff; margin-top: 30px; font-family: 'Rajdhani';">INSTRUCTIONS</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; border-left: 2px solid var(--neon-blue); padding-left: 15px;">
+                    <strong style="color: var(--neon-blue);">CONTROLS:</strong> Use Arrow Keys or Swipe gestures on
+                    touch devices to change direction.
+                </li>
+                <li style="margin-bottom: 10px; border-left: 2px solid var(--neon-red); padding-left: 15px;">
+                    <strong style="color: var(--neon-red);">HAZARDS:</strong> Do not collide with the grid walls or your
+                    own tail section. System crash is immediate.
+                </li>
+                <li style="margin-bottom: 10px; border-left: 2px solid var(--neon-green); padding-left: 15px;">
+                    <strong style="color: var(--neon-green);">SCORING:</strong> Green nodes grant +10 Data. Rare Blue
+                    'Super Nodes' grant +50 Data and multiply growth speed.
+                </li>
+            </ul>
+            <p style="margin-top: 30px;">
+                This simulation tests reflex velocity and spatial reasoning. As your length increases, available grid
+                space decreases, requiring advanced pathfinding algorithms (your brain) to survive. Vexil Logic Games
+                provides this interface free of charge for browser-based training.
+            </p>
+        </div>
+    </section>
 
     <script>
         const canvas = document.getElementById('gameCanvas');

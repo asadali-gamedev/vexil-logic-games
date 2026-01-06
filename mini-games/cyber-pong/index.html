@@ -47,11 +47,12 @@
 
         body {
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: var(--deep-void);
             font-family: 'Rajdhani', sans-serif;
             color: #fff;
-            touch-action: none;
+            min-height: 100vh;
+            touch-action: pan-y;
             user-select: none;
         }
 
@@ -205,33 +206,59 @@
 </head>
 
 <body>
-    <div class="scanlines"></div>
-    <div class="vignette"></div>
-    <div class="ui-layer">
-        <div class="header-bar">
-            <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Arcade Nexus</a>
-            <div class="score-display">
-                <span id="pScore" style="color:var(--neon-green)">0</span>
-                <span style="font-size:1.5rem; margin-top:20px; color:#555; opacity:0.5">vs</span>
-                <span id="aiScore" style="color:var(--neon-red)">0</span>
+    <div style="position: relative; height: 100vh; width: 100%; overflow: hidden;">
+        <div class="scanlines"></div>
+        <div class="vignette"></div>
+        <div class="ui-layer">
+            <div class="header-bar">
+                <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Arcade Nexus</a>
+                <div class="score-display">
+                    <span id="pScore" style="color:var(--neon-green)">0</span>
+                    <span style="font-size:1.5rem; margin-top:20px; color:#555; opacity:0.5">vs</span>
+                    <span id="aiScore" style="color:var(--neon-red)">0</span>
+                </div>
+            </div>
+            <div id="startScreen" class="overlay-screen">
+                <h1>CYBER PONG</h1>
+                <p>HYPER EDITION V4.0</p>
+                <div style="font-size:0.9rem; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
+                    <p>MOVE TO DEFEND</p>
+                    <p>SLAM TO SMASH</p>
+                </div>
+                <button class="btn-play" onclick="startGame()">INITIATE SEQUENCE</button>
+            </div>
+            <div id="gameOverScreen" class="overlay-screen hidden">
+                <h1 id="winnerText"></h1>
+                <p>MATCH COMPLETE</p>
+                <button class="btn-play" onclick="startGame()">REMATCH</button>
             </div>
         </div>
-        <div id="startScreen" class="overlay-screen">
-            <h1>CYBER PONG</h1>
-            <p>HYPER EDITION V4.0</p>
-            <div style="font-size:0.9rem; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
-                <p>MOVE TO DEFEND</p>
-                <p>SLAM TO SMASH</p>
-            </div>
-            <button class="btn-play" onclick="startGame()">INITIATE SEQUENCE</button>
-        </div>
-        <div id="gameOverScreen" class="overlay-screen hidden">
-            <h1 id="winnerText"></h1>
-            <p>MATCH COMPLETE</p>
-            <button class="btn-play" onclick="startGame()">REMATCH</button>
-        </div>
+        <canvas id="gameCanvas"></canvas>
     </div>
-    <canvas id="gameCanvas"></canvas>
+
+    <!-- SEO Content Section -->
+    <section
+        style="background: #020205; padding: 80px 20px; border-top: 2px solid var(--neon-blue); position: relative; z-index: 20;">
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #ccc;">
+            <h2 style="font-family: 'Science Gothic'; color: var(--neon-blue); font-size: 2.5rem; margin-bottom: 30px;">
+                ABOUT THE DUEL</h2>
+            <p>
+                <strong>Cyber Pong</strong> transforms the ancient table tennis algorithm into a high-speed neon duel.
+                Face off against the Vexil AI Core, an adaptive opponent that learns from your deflection angles.
+            </p>
+            <h3 style="color: #fff; margin-top: 30px; font-family: 'Rajdhani';">SYSTEM MECHANICS</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; border-left: 2px solid var(--neon-blue); padding-left: 15px;">
+                    <strong style="color: var(--neon-blue);">PHYSICS ENGINE:</strong> The energy ball accelerates with
+                    every paddle impact, requiring nanosecond reaction times.
+                </li>
+                <li style="margin-bottom: 10px; border-left: 2px solid var(--neon-green); padding-left: 15px;">
+                    <strong style="color: var(--neon-green);">WIN CONDITION:</strong> The first entity to score 10 data
+                    points claims victory over the network sector.
+                </li>
+            </ul>
+        </div>
+    </section>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
