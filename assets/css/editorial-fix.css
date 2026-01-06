@@ -352,7 +352,7 @@
 
 /* Transparent Glass Overrides for Blog Page Navbar */
 .editorial-body .navbar-area {
-    background: transparent !important;
+    background: #090d12 !important;
     backdrop-filter: blur(0px);
     /* Clearer header for hero */
     border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;

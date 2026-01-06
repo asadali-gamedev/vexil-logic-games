@@ -2687,10 +2687,16 @@ html.lenis body {
   width: 100%;
   z-index: 99;
   top: 0;
+  background-color: #090d12 !important;
 }
 
 .navbar-area.sticky-active {
   background-color: #090d12;
+}
+
+.navbar-area-2 {
+  background-color: #090d12 !important;
+  background: #090d12 !important;
 }
 
 .navbar-area .navbar-shape {
@@ -12059,187 +12065,195 @@ html.lenis body {
   color: #bc13fe;
   background: rgba(188, 19, 254, 0.1);
 }
+
 /* --- MODERN EDITORIAL DARK THEME (2026) --- */
 
 .editorial-body {
-    background-color: #0f0f11;
-    color: #e0e0e0;
-    font-family: 'Rajdhani', sans-serif;
+  background-color: #0f0f11;
+  color: #e0e0e0;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 /* Reading Progress Bar */
 .reading-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 4px;
-    background: #007aff;
-    z-index: 9999;
-    transition: width 0.1s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: #007aff;
+  z-index: 9999;
+  transition: width 0.1s;
 }
 
 /* Editorial Hero */
 .editorial-hero {
-    position: relative;
-    height: 500px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 0 0 20px 20px;
-    overflow: hidden;
-    margin-bottom: 60px;
+  position: relative;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
+  margin-bottom: 60px;
 }
 
 .editorial-hero-overlay {
-    background: linear-gradient(to bottom, rgba(15,15,17,0.3), #0f0f11);
-    position: absolute;
-    bottom: 0; left: 0; right: 0; top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 0 60px 0;
+  background: linear-gradient(to bottom, rgba(15, 15, 17, 0.3), #0f0f11);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 60px 0;
 }
 
 .editorial-title {
-    font-family: 'Science Gothic', sans-serif;
-    font-weight: 800;
-    font-size: 3.5rem;
-    color: #ffffff;
-    line-height: 1.1;
-    margin-bottom: 20px;
+  font-family: 'Science Gothic', sans-serif;
+  font-weight: 800;
+  font-size: 3.5rem;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 20px;
 }
 
 .editorial-meta {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #007aff;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #007aff;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
 }
 
 .editorial-meta span {
-    margin-right: 20px;
-    position: relative;
+  margin-right: 20px;
+  position: relative;
 }
 
 /* Main Content Area */
 .editorial-content-wrapper {
-    background: transparent;
+  background: transparent;
 }
 
 .editorial-text {
-    font-size: 1.15rem;
-    line-height: 1.9;
-    color: #d1d1d6;
-    font-weight: 300;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #d1d1d6;
+  font-weight: 300;
 }
 
 .editorial-text p {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
 .editorial-text h3 {
-    font-family: 'Science Gothic', sans-serif;
-    color: #fff;
-    font-size: 2rem;
-    margin-top: 50px;
-    margin-bottom: 25px;
-    position: relative;
-    padding-left: 0;
+  font-family: 'Science Gothic', sans-serif;
+  color: #fff;
+  font-size: 2rem;
+  margin-top: 50px;
+  margin-bottom: 25px;
+  position: relative;
+  padding-left: 0;
 }
 
 /* Quote */
 .editorial-quote {
-    font-size: 1.4rem;
-    font-weight: 400;
-    font-style: italic;
-    color: #fff;
-    border-left: 4px solid #007aff;
-    padding-left: 30px;
-    margin: 40px 0;
-    line-height: 1.6;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: italic;
+  color: #fff;
+  border-left: 4px solid #007aff;
+  padding-left: 30px;
+  margin: 40px 0;
+  line-height: 1.6;
 }
 
 /* Sidebar Styling */
 .editorial-sidebar-card {
-    background: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 12px;
-    padding: 30px;
-    margin-bottom: 30px;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
 }
 
 .editorial-widget-title {
-    font-family: 'Science Gothic', sans-serif;
-    font-size: 1.1rem;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-    display: inline-block;
+  font-family: 'Science Gothic', sans-serif;
+  font-size: 1.1rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+  display: inline-block;
 }
 
 .editorial-list li a {
-    display: block;
-    padding: 10px 0;
-    color: #8e8e93;
-    transition: 0.2s;
-    border-bottom: 1px solid #2c2c2e;
+  display: block;
+  padding: 10px 0;
+  color: #8e8e93;
+  transition: 0.2s;
+  border-bottom: 1px solid #2c2c2e;
 }
 
 .editorial-list li a:hover {
-    color: #007aff;
-    padding-left: 5px;
+  color: #007aff;
+  padding-left: 5px;
 }
 
 /* Recent Post Thumb */
 .editorial-recent-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .editorial-recent-img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 6px;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .editorial-recent-info h6 a {
-    color: #fff;
-    font-weight: 600;
-    line-height: 1.4;
-    font-size: 0.95rem;
-    transition: 0.2s;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  transition: 0.2s;
 }
 
 .editorial-recent-info h6 a:hover {
-    color: #007aff;
+  color: #007aff;
 }
 
 /* Tags */
 .editorial-tag {
-    display: inline-block;
-    padding: 6px 14px;
-    background: #2c2c2e;
-    color: #fff;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    margin: 0 5px 5px 0;
-    transition: 0.2s;
+  display: inline-block;
+  padding: 6px 14px;
+  background: #2c2c2e;
+  color: #fff;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  margin: 0 5px 5px 0;
+  transition: 0.2s;
 }
 
 .editorial-tag:hover {
-    background: #007aff;
+  background: #007aff;
 }
 
 @media (max-width: 991px) {
-    .editorial-title { font-size: 2.5rem; }
-    .editorial-hero { height: 400px; }
-}
+  .editorial-title {
+    font-size: 2.5rem;
+  }
 
+  .editorial-hero {
+    height: 400px;
+  }
+}
