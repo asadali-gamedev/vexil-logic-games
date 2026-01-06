@@ -852,6 +852,24 @@
         cursor.removeClass("active");
         follower.removeClass("active");
     });
+    // MAGNETIC BUTTON EFFECT
+    $(".signal-uplink").on("mousemove", function (e) {
+        const pos = $(this).offset();
+        const mx = e.pageX - pos.left;
+        const my = e.pageY - pos.top;
+        const centerX = $(this).outerWidth() / 2;
+        const centerY = $(this).outerHeight() / 2;
+        const deltaX = (mx - centerX) * 0.3; // Intensity
+        const deltaY = (my - centerY) * 0.3;
+
+        gsap.to($(this), { duration: 0.3, x: deltaX, y: deltaY, ease: "power2.out" });
+        gsap.to($(this).find("i"), { duration: 0.3, x: deltaX * 1.5, y: deltaY * 1.5 }); // Parallax icon if present
+    });
+
+    $(".signal-uplink").on("mouseleave", function () {
+        gsap.to($(this), { duration: 0.5, x: 0, y: 0, ease: "elastic.out(1, 0.4)" });
+    });
+
     // CURSOR End
 
 

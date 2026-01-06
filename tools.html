@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mobile Game ROAS Calculator | Tools - Vexil Logic</title>
+    <meta name="description"
+        content="Free Mobile Game ROAS Calculator. Calculate Return on Ad Spend, LTV, and Break-Even Point for your hyper-casual or arcade game campaigns.">
+    <link rel="canonical" href="https://vexillogic.com/tools.html">
+    <link rel=icon href="assets/img/favicon.png" sizes="20x20" type="image/png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vexillogic.com/tools.html">
+    <meta property="og:title" content="Mobile Game ROAS Calculator - Vexil Logic Tools">
+    <meta property="og:description"
+        content="Calculate your UA campaign profitability instantly. Free tool for indie developers.">
+    <meta property="og:image" content="https://vexillogic.com/assets/img/hero/hero-bg.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vexillogic.com/tools.html">
+    <meta property="twitter:title" content="Mobile Game ROAS Calculator">
+    <meta property="twitter:description"
+        content="Calculate your UA campaign profitability instantly. Free tool for indie developers.">
+    <meta property="twitter:image" content="https://vexillogic.com/assets/img/hero/hero-bg.png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        .tool-hero {
+            padding: 180px 0 100px;
+            background: linear-gradient(rgba(5, 5, 16, 0.9), rgba(5, 5, 16, 0.95)), url('assets/img/banner/2.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .calculator-card:hover {
+            border-color: rgba(68, 245, 128, 0.3);
+        }
+
+        .input-group-label {
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tool-input {
+            width: 100%;
+            background: #0a0a0f;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+        }
+
+        .tool-input:focus {
+            outline: none;
+            border-color: var(--main-color-one);
+            box-shadow: 0 0 15px rgba(68, 245, 128, 0.1);
+        }
+
+        .result-box {
+            background: #15151a;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .result-value {
+            font-family: 'Science Gothic', sans-serif;
+            font-size: 3.5rem;
+            color: var(--main-color-one);
+            margin: 10px 0;
+            text-shadow: 0 0 20px rgba(68, 245, 128, 0.2);
+        }
+
+        .result-label {
+            color: #888;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background: var(--main-color-one);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .btn-calc:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(68, 245, 128, 0.4);
+        }
+
+        .embed-trigger {
+            margin-top: 50px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+    <!-- Schema.org Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Mobile Game ROAS Calculator",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+          "@type": "Organization",
+          "name": "Vexil Logic Games"
+      }
+    }
+    </script>
+</head>
+
+<body class="bg-deep-void">
+
+    <!-- cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-area navbar-area-1 navbar-border navbar-expand-lg">
+        <div class="container nav-container px-lg-0">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/img/favicon.png" alt="logo"
+                        style="height: 50px; margin-right: 5px; vertical-align: middle;">
+                    <span class="site-logo-text"><span class="vexil">VEXIL</span><span class="logic">LOGIC</span></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="xdyat_main_menu">
+                <ul class="navbar-nav menu-open ps-lg-5 pe-xl-4 text-end">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a class="active" href="tools.html">Tools</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="tool-hero text-center">
+        <div class="container">
+            <h6 class="text-neon-cyan font-tech">// UTILITY PROTOCOL</h6>
+            <h1 class="text-white mt-3" style="font-family: 'Science Gothic'; font-size: 3.5rem;">ROAS <span
+                    class="color-base">CALCULATOR</span></h1>
+            <p class="text-white-50 mt-3">Calculate profitability for your mobile game campaigns.</p>
+        </div>
+    </div>
+
+    <!-- Calculator Interface -->
+    <div class="pd-top-110 pd-bottom-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="calculator-card">
+                        <h4 class="text-white mb-4" style="font-family: 'Rajdhani';">INPUT PARAMETERS</h4>
+
+                        <label class="input-group-label">CPI (Cost Per Install) [$]</label>
+                        <input type="number" id="cpi" class="tool-input" placeholder="0.50" step="0.01">
+
+                        <label class="input-group-label">LTV (Lifetime Value) [$]</label>
+                        <input type="number" id="ltv" class="tool-input" placeholder="0.85" step="0.01">
+
+                        <label class="input-group-label">Daily Budget [$]</label>
+                        <input type="number" id="budget" class="tool-input" placeholder="100" step="1">
+
+                        <label class="input-group-label">Organic Uplift [%] (K-Factor)</label>
+                        <input type="number" id="organic" class="tool-input" placeholder="10" step="1">
+
+                        <button class="btn-calc mt-3" onclick="calculateROAS()">CALCULATE PROFIT</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="row h-100">
+                        <div class="col-12 mb-4">
+                            <div class="result-box">
+                                <span class="result-label">Return On Ad Spend</span>
+                                <div class="result-value" id="roasResult">0%</div>
+                                <span class="text-white-50 small" id="roasComment">Waiting for data...</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="result-box">
+                                <span class="result-label">Net Profit</span>
+                                <div class="result-value" id="profitResult" style="font-size: 2rem;">$0</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="result-box">
+                                <span class="result-label">Effective CPI</span>
+                                <div class="result-value" id="ecpiResult" style="font-size: 2rem;">$0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="embed-trigger" onclick="copyEmbed()">
+                [ <i class="fas fa-code"></i> Embed this tool on your site ]
+            </div>
+            <div id="embedMsg" class="text-center text-success mt-2" style="opacity:0; transition:opacity 0.5s;">Copied
+                to clipboard!</div>
+
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="footer-area footer-area-1 pd-top-50" style="background: transparent;">
+        <div class="container text-center">
+            <p class="text-white-50">© 2026 Vexil Logic Games. Free utility for the community.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fontawesome.min.js"></script>
+    <script src="assets/js/magnific.min.js"></script>
+    <script src="assets/js/nice-select.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/counter-up.min.js"></script>
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/SplitText.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/lenis.min.js"></script>
+    <script src="assets/js/app-loader.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <style>
+        @media only screen and (max-width: 767px) {
+            .tool-hero {
+                padding: 120px 0 60px;
+            }
+
+            .tool-hero h1 {
+                font-size: 2.5rem !important;
+            }
+
+            .calculator-card {
+                padding: 20px;
+            }
+
+            .result-box {
+                padding: 15px;
+            }
+
+            .result-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        function calculateROAS() {
+            const cpi = parseFloat(document.getElementById('cpi').value) || 0;
+            const ltv = parseFloat(document.getElementById('ltv').value) || 0;
+            const budget = parseFloat(document.getElementById('budget').value) || 0;
+            const organic = parseFloat(document.getElementById('organic').value) || 0;
+
+            if (cpi === 0) return;
+
+            // Calculations
+            const paidInstalls = budget / cpi;
+            const organicInstalls = paidInstalls * (organic / 100);
+            const totalInstalls = paidInstalls + organicInstalls;
+            const effectiveCPI = budget / totalInstalls;
+
+            const totalRevenue = totalInstalls * ltv;
+            const profit = totalRevenue - budget;
+            const roas = (totalRevenue / budget) * 100;
+
+            // Animation
+            animateValue("roasResult", roas, "%");
+            animateValue("profitResult", profit, "$");
+            animateValue("ecpiResult", effectiveCPI, "$");
+
+            const commentEl = document.getElementById('roasComment');
+            if (roas < 100) {
+                commentEl.innerText = "Negative ROI. Optimize LTV or lower CPI.";
+                commentEl.style.color = "#ff003c";
+            } else if (roas < 150) {
+                commentEl.innerText = "Profitable. Scale carefully.";
+                commentEl.style.color = "#f5bc44";
+            } else {
+                commentEl.innerText = "High Profitability! Scale Aggressively.";
+                commentEl.style.color = "#44f580";
+            }
+        }
+
+        function animateValue(id, val, suffix) {
+            const el = document.getElementById(id);
+            let start = 0;
+            const end = val;
+            const duration = 1000;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Ease out quart
+                const ease = 1 - Math.pow(1 - progress, 4);
+
+                const current = start + (end - start) * ease;
+                el.innerText = (suffix === "$" ? "$" : "") + current.toFixed(2) + (suffix === "%" ? "%" : "");
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        function copyEmbed() {
+            const code = `<iframe src="https://vexillogic.com/tools.html" width="100%" height="600" frameborder="0"></iframe>`;
+            navigator.clipboard.writeText(code);
+            document.getElementById('embedMsg').style.opacity = 1;
+            setTimeout(() => document.getElementById('embedMsg').style.opacity = 0, 2000);
+        }
+    </script>
+</body>
+
+</html>
